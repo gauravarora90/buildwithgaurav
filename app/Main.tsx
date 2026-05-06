@@ -72,7 +72,7 @@ const TIMELINE: TItem[] = [
     year: '2021',
     title: 'Became a Product Engineer',
     story:
-      'Joined Raaho. Started sitting with the CEO. Stopped just building features — started owning outcomes. 50+ microservices, cross-functional teams, product decisions from data — not gut feel.',
+      'Joined Raaho as the engineering lead. Stopped being handed specs — started writing them. Architected 50+ microservices from scratch, owned product decisions end-to-end, and built the kind of cross-functional culture where engineering and business are the same conversation.',
     tag: 'Product + Engineering',
     tagColor: 'blue',
   },
