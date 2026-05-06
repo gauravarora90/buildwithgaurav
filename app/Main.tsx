@@ -5,198 +5,319 @@ import Link from '@/components/Link'
 import { formatDate } from 'pliny/utils/formatDate'
 import siteMetadata from '@/data/siteMetadata'
 
-const timeline = [
-  { year: '2011', label: 'Android' },
-  { year: '2018', label: 'iOS' },
-  { year: '2019', label: 'Fintech' },
-  { year: '2021', label: 'NFC Payments' },
-  { year: '2022', label: 'AI / LLMs' },
-  { year: '2024', label: 'AI Agents' },
-  { year: '2026', label: "What's Next ✦" },
+// ─── Full-bleed: escapes SectionContainer's max-width ────────────────────────
+const FB: React.CSSProperties = { width: '100vw', marginLeft: 'calc(50% - 50vw)' }
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
+
+const STATS = [
+  { val: '15+', label: 'Years', sub: 'Building production systems', cls: 'float-0' },
+  { val: '50+', label: 'Microservices', sub: 'Architected at scale', cls: 'float-1' },
+  { val: 'AI', label: 'Agents', sub: 'In production today', cls: 'float-2' },
+  { val: '15', label: 'Countries', sub: 'Banking platform live', cls: 'float-3' },
 ]
 
-const projects = [
+type TagColor = 'blue' | 'teal' | 'purple' | 'green' | 'amber'
+const TAG: Record<TagColor, string> = {
+  blue: 'bg-[rgba(37,99,235,0.1)] text-[#60A5FA] border border-[rgba(37,99,235,0.2)]',
+  teal: 'bg-[rgba(20,184,166,0.1)] text-teal-400 border border-teal-500/20',
+  purple: 'bg-[rgba(124,58,237,0.1)] text-purple-400 border border-purple-500/20',
+  green: 'bg-[rgba(34,197,94,0.1)] text-green-400 border border-green-500/20',
+  amber: 'bg-[rgba(217,119,6,0.1)] text-amber-400 border border-amber-500/20',
+}
+
+interface TItem {
+  year: string
+  title: string
+  story: string
+  tag: string
+  tagColor: TagColor
+  special?: boolean
+}
+
+const TIMELINE: TItem[] = [
+  {
+    year: '2011',
+    title: 'Started With Android',
+    story:
+      'Joined when the ecosystem was raw and fragmented. Wrote apps on devices with barely any RAM. Learned that solid fundamentals beat clever hacks — every single time.',
+    tag: 'Mobile Engineering',
+    tagColor: 'blue',
+  },
+  {
+    year: '2018',
+    title: 'Added iOS',
+    story:
+      'Why stop at one platform? Expanded cross-platform without a team. One engineer, two ecosystems, zero excuses. Doubled the surface area, sharpened the instincts.',
+    tag: 'Cross-Platform',
+    tagColor: 'blue',
+  },
+  {
+    year: '2019',
+    title: 'Fintech Changed Everything',
+    story:
+      "Built Zoto — Nigeria's #1 payments super-app. Then DBXP — live across 15+ countries. Real money moving through systems I built. Learned what engineering means when it has to work — no exceptions.",
+    tag: 'Fintech at Scale',
+    tagColor: 'teal',
+  },
+  {
+    year: '2021',
+    title: 'Built a Payment System. Alone.',
+    story:
+      "Complete closed-loop NFC Tap & Pay prepaid system. Hardware integration, backend API, transaction engine, merchant dashboard — every layer, solo. When you're the only one who can fix it, you learn everything.",
+    tag: 'Full Stack · Solo',
+    tagColor: 'purple',
+  },
+  {
+    year: '2021',
+    title: 'Became a Product Engineer',
+    story:
+      'Joined Raaho. Started sitting with the CEO. Stopped just building features — started owning outcomes. 50+ microservices, cross-functional teams, product decisions from data — not gut feel.',
+    tag: 'Product + Engineering',
+    tagColor: 'blue',
+  },
+  {
+    year: '2022',
+    title: 'AI Unlocked New Languages',
+    story:
+      "Used AI to learn Go, Python, Java — in production. Didn't study. Shipped. Discovered AI wasn't just a tool — it was a force multiplier for anyone willing to actually use it.",
+    tag: 'AI-Assisted Development',
+    tagColor: 'green',
+  },
+  {
+    year: '2023',
+    title: 'Went Deep on Data',
+    story:
+      'CleverTap, Zoho, analytics pipelines. Started making product decisions from real data — not assumptions. Retention curves, funnel drops, cohort analysis — the numbers started telling stories.',
+    tag: 'Data-Driven Product',
+    tagColor: 'amber',
+  },
+  {
+    year: '2024',
+    title: 'Built AI Agents',
+    story:
+      'Built Chhotu Bot and Mira Bot on Telegram — automating GitHub, CleverTap, DigitalOcean. 90 minutes of daily work became 3 commands. The future arrived early — I just built it first.',
+    tag: 'AI Engineering',
+    tagColor: 'blue',
+  },
+  {
+    year: '2026',
+    title: "What's Next ✦",
+    story:
+      '15 years of building. Now looking for an AI-first company where this entire journey — mobile, fintech, data, AI agents, product thinking — actually matters. Remote. Global. Ambitious.',
+    tag: 'Open to Opportunities',
+    tagColor: 'blue',
+    special: true,
+  },
+]
+
+const PROJECTS = [
   {
     title: 'Chhotu Bot',
     tag: 'AI Agent',
     desc: 'Telegram AI assistant automating GitHub, CleverTap & DigitalOcean. 90 min of daily dashboard-checking → 3 commands.',
-    glow: 'hover:shadow-[0_0_35px_rgba(59,130,246,0.25)]',
-    border: 'hover:border-blue-500/60',
-    tagStyle: 'bg-blue-500/10 text-blue-400 border border-blue-500/30',
-    href: '/blog/chhotu-bot',
+    tagStyle: 'bg-[rgba(37,99,235,0.1)] text-[#60A5FA] border border-[rgba(37,99,235,0.2)]',
+    hoverBorder: 'hover:border-[rgba(37,99,235,0.6)]',
+    hoverGlow: 'hover:shadow-[0_0_32px_rgba(37,99,235,0.18)]',
+    link: null as null | { label: string; href: string; color: string },
   },
   {
     title: 'NFC Tap & Pay',
     tag: 'Fintech · Solo Build',
-    desc: 'Complete closed-loop prepaid payment system. Built alone — hardware integration to merchant dashboard. Sub-300ms taps.',
-    glow: 'hover:shadow-[0_0_35px_rgba(168,85,247,0.25)]',
-    border: 'hover:border-purple-500/60',
-    tagStyle: 'bg-purple-500/10 text-purple-400 border border-purple-500/30',
-    href: '/blog/nfc-tap-and-pay',
+    desc: 'Complete closed-loop prepaid payment system. Built alone — hardware to merchant dashboard. Sub-300ms taps.',
+    tagStyle: 'bg-[rgba(124,58,237,0.1)] text-purple-400 border border-purple-500/20',
+    hoverBorder: 'hover:border-purple-500/60',
+    hoverGlow: 'hover:shadow-[0_0_32px_rgba(124,58,237,0.18)]',
+    link: { label: 'View case study →', href: '/blog/nfc-tap-and-pay', color: 'text-purple-400' },
   },
   {
     title: 'DBXP Banking Platform',
     tag: 'Digital Banking',
-    desc: 'Production digital banking platform deployed across 15+ countries. Real money. Real users. Real scale.',
-    glow: 'hover:shadow-[0_0_35px_rgba(20,184,166,0.25)]',
-    border: 'hover:border-teal-500/60',
-    tagStyle: 'bg-teal-500/10 text-teal-400 border border-teal-500/30',
-    href: '/projects',
+    desc: 'Production digital banking platform. 15+ countries. Real money. Real users. Real scale.',
+    tagStyle: 'bg-[rgba(8,145,178,0.1)] text-cyan-400 border border-cyan-500/20',
+    hoverBorder: 'hover:border-cyan-500/60',
+    hoverGlow: 'hover:shadow-[0_0_32px_rgba(8,145,178,0.18)]',
+    link: null,
   },
   {
     title: 'Zoto Super App',
     tag: 'Payments · Nigeria',
     desc: "Nigeria's #1 payments super-app at Mahindra Comviva. Millions of users. High-stakes fintech at scale.",
-    glow: 'hover:shadow-[0_0_35px_rgba(245,158,11,0.25)]',
-    border: 'hover:border-amber-500/60',
-    tagStyle: 'bg-amber-500/10 text-amber-400 border border-amber-500/30',
-    href: '/projects',
+    tagStyle: 'bg-[rgba(217,119,6,0.1)] text-amber-400 border border-amber-500/20',
+    hoverBorder: 'hover:border-amber-500/60',
+    hoverGlow: 'hover:shadow-[0_0_32px_rgba(217,119,6,0.18)]',
+    link: null,
   },
 ]
 
-const stats = [
-  { val: '15+', label: 'Years', sub: 'Building production systems', delay: 'float-0' },
-  { val: '50+', label: 'Services', sub: 'Microservices at scale', delay: 'float-1' },
-  { val: 'AI', label: 'Agents', sub: 'Shipped and running', delay: 'float-2' },
-  { val: '15', label: 'Countries', sub: 'Banking platform deployed', delay: 'float-3' },
-]
-
-// Full-bleed helper — breaks out of the SectionContainer's max-width constraint
-const fullBleed: React.CSSProperties = {
-  width: '100vw',
-  marginLeft: 'calc(50% - 50vw)',
+// ─── Timeline card sub-component ─────────────────────────────────────────────
+function TCard({ item }: { item: TItem }) {
+  return (
+    <div
+      data-reveal
+      className={`w-full rounded-2xl border border-[#1E293B] bg-[#0D1117] p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-[rgba(37,99,235,0.5)] hover:shadow-[0_0_24px_rgba(37,99,235,0.12)] ${item.special ? 'special-card' : ''}`}
+    >
+      <div className="mb-1.5 text-xs font-bold tracking-[0.2em] text-[#2563EB] uppercase">
+        {item.year}
+      </div>
+      <h3 className="mb-3 text-lg font-bold text-[#F8FAFC]">{item.title}</h3>
+      <p className="mb-4 text-sm leading-relaxed text-[#94A3B8]">{item.story}</p>
+      <span
+        className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${TAG[item.tagColor]}`}
+      >
+        {item.tag}
+      </span>
+    </div>
+  )
 }
 
+// ─── Main ─────────────────────────────────────────────────────────────────────
 export default function Home({
   posts,
 }: {
-  posts: { slug: string; date: string; title: string; summary?: string; tags?: string[] }[]
+  posts: { slug: string; date: string; title: string; summary?: string }[]
 }) {
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add('in-view')
-        }),
-      { threshold: 0.12 }
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('in-view')),
+      { threshold: 0.08 }
     )
-    document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
+    document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el))
+    return () => io.disconnect()
   }, [])
 
   return (
     <>
       <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-14px); }
+        @keyframes badgeDot  { 0%,100%{opacity:1}   50%{opacity:0.25} }
+        @keyframes floatUp   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        @keyframes scrollInd { 0%,100%{opacity:0.25;transform:scaleY(0.15)} 50%{opacity:1;transform:scaleY(1)} }
+        @keyframes specialCard {
+          0%,100% { box-shadow: 0 0 0 0 rgba(37,99,235,0), 0 0 0 1px #1E293B; }
+          50%     { box-shadow: 0 0 28px rgba(37,99,235,0.3), 0 0 0 1px rgba(37,99,235,0.8); }
         }
-        @keyframes scrollDot {
-          0%, 100% { transform: translateY(0); opacity: 0.4; }
-          50%       { transform: translateY(10px); opacity: 1; }
-        }
-        @keyframes badgePulse {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
-          50%       { box-shadow: 0 0 18px 2px rgba(59,130,246,0.35); }
-        }
-        .float-0 { animation: float 4.5s ease-in-out infinite; }
-        .float-1 { animation: float 4.5s ease-in-out infinite 0.8s; }
-        .float-2 { animation: float 4.5s ease-in-out infinite 1.6s; }
-        .float-3 { animation: float 4.5s ease-in-out infinite 2.4s; }
-        .scroll-dot { animation: scrollDot 1.8s ease-in-out infinite; }
-        .badge-glow { animation: badgePulse 2.5s ease-in-out infinite; }
+        .badge-dot  { animation: badgeDot  2s   ease-in-out infinite; }
+        .float-0    { animation: floatUp   3s   ease-in-out infinite; }
+        .float-1    { animation: floatUp   3s   ease-in-out infinite 0.5s; }
+        .float-2    { animation: floatUp   3s   ease-in-out infinite 1s; }
+        .float-3    { animation: floatUp   3s   ease-in-out infinite 1.5s; }
+        .scroll-ind { animation: scrollInd 1.5s ease-in-out infinite; transform-origin: top; }
+        .special-card { animation: specialCard 2s ease-in-out infinite; }
 
         [data-reveal] {
-          opacity: 0;
-          transform: translateY(28px);
-          transition: opacity 0.65s ease, transform 0.65s ease;
+          opacity: 0; transform: translateY(22px);
+          transition: opacity .55s ease, transform .55s ease;
         }
-        [data-reveal].in-view {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        [data-reveal][data-delay="100"] { transition-delay: 100ms; }
-        [data-reveal][data-delay="200"] { transition-delay: 200ms; }
-        [data-reveal][data-delay="300"] { transition-delay: 300ms; }
-        [data-reveal][data-delay="400"] { transition-delay: 400ms; }
+        [data-reveal].in-view  { opacity: 1; transform: translateY(0); }
+        [data-reveal][data-d="1"] { transition-delay: .08s; }
+        [data-reveal][data-d="2"] { transition-delay: .16s; }
+        [data-reveal][data-d="3"] { transition-delay: .24s; }
+        [data-reveal][data-d="4"] { transition-delay: .32s; }
       `}</style>
 
-      {/* ── HERO ─────────────────────────────────────────────────────── */}
+      {/* ════════════════════════════════════════════════════════ HERO */}
       <section
-        style={fullBleed}
-        className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-[#0a0a0a] px-4 py-24 sm:px-6"
+        style={FB}
+        className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-black px-6 py-24"
       >
-        {/* Subtle dot-grid background */}
+        {/* Top-right nebula glow */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.035]"
+          className="pointer-events-none absolute -top-32 -right-32 h-[700px] w-[700px] rounded-full"
           style={{
-            backgroundImage: 'radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)',
-            backgroundSize: '32px 32px',
+            background:
+              'radial-gradient(circle at 70% 30%, rgba(37,99,235,0.12) 0%, transparent 65%)',
           }}
         />
 
-        {/* Ambient glow blobs */}
-        <div className="pointer-events-none absolute top-1/3 right-1/4 h-[500px] w-[500px] rounded-full bg-blue-700/10 blur-[120px]" />
-        <div className="pointer-events-none absolute bottom-1/4 left-1/6 h-72 w-72 rounded-full bg-blue-900/15 blur-[90px]" />
-
         <div className="relative mx-auto w-full max-w-5xl">
-          <div className="flex flex-col gap-14 lg:flex-row lg:items-center">
-            {/* ── Left: Copy ── */}
-            <div className="flex-1 space-y-8">
+          <div className="flex flex-col gap-16 lg:flex-row lg:items-center">
+            {/* ── Left: copy ── */}
+            <div className="flex-1 space-y-8 lg:max-w-xl">
               {/* Badge */}
-              <div className="badge-glow inline-flex items-center gap-2.5 rounded-full border border-blue-500/40 bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-400">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-blue-400" />
-                Principal Product Engineer & AI Builder
+              <div
+                className="inline-flex items-center gap-2.5 rounded-full border px-4 py-2 text-sm font-medium text-[#60A5FA]"
+                style={{
+                  borderColor: 'rgba(37,99,235,0.4)',
+                  backgroundColor: 'rgba(37,99,235,0.07)',
+                }}
+              >
+                <span className="badge-dot h-2 w-2 flex-shrink-0 rounded-full bg-[#2563EB]" />
+                Available for AI-First Companies · Remote · Global
               </div>
 
               {/* Headline */}
-              <div>
-                <h1 className="block text-6xl leading-[1.05] font-black tracking-tight text-white sm:text-7xl xl:text-8xl">
+              <div className="space-y-0.5">
+                <h1 className="block text-[clamp(52px,8vw,88px)] leading-[1.02] font-black tracking-tight text-[#F8FAFC]">
                   I Build Things
                 </h1>
-                <h1 className="block text-6xl leading-[1.05] font-black tracking-tight text-white sm:text-7xl xl:text-8xl">
+                <h1 className="block text-[clamp(52px,8vw,88px)] leading-[1.02] font-black tracking-tight text-[#F8FAFC]">
                   That Actually
                 </h1>
-                <h1 className="block text-6xl leading-[1.05] font-black tracking-tight sm:text-7xl xl:text-8xl">
-                  <span className="text-blue-400">Work.</span>
+                <h1
+                  className="block text-[clamp(56px,8.5vw,96px)] leading-[1.02] font-black tracking-tight"
+                  style={{ color: '#2563EB', textShadow: '0 0 50px rgba(37,99,235,0.35)' }}
+                >
+                  Work.
                 </h1>
               </div>
 
               {/* Sub */}
-              <p className="max-w-lg text-lg leading-relaxed text-gray-400">
-                15 years. Fintech, logistics, AI. From Android apps to AI agents to banking
-                platforms across 15 countries.{' '}
-                <span className="font-semibold text-gray-200">I don't prototype — I ship.</span>
+              <p className="max-w-lg text-[17px] leading-relaxed text-[#94A3B8]">
+                15 years. Fintech, logistics, AI agents. I've shipped banking platforms to 15
+                countries, built AI systems from scratch, and architected 50+ microservices that
+                handle real load.{' '}
+                <span className="font-semibold text-[#F8FAFC]">I don't prototype. I ship.</span>
               </p>
 
               {/* CTAs */}
               <div className="flex flex-wrap gap-4">
                 <Link
                   href="/projects"
-                  className="rounded-lg bg-blue-500 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-400 hover:shadow-[0_0_24px_rgba(59,130,246,0.55)]"
+                  className="rounded-lg px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.02]"
+                  style={{
+                    backgroundColor: '#2563EB',
+                    boxShadow: '0 0 0 0 rgba(37,99,235,0)',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.boxShadow = '0 0 24px rgba(37,99,235,0.5)')
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.boxShadow = '0 0 0 0 rgba(37,99,235,0)')
+                  }
                 >
                   See My Work →
                 </Link>
                 <Link
                   href="/about"
-                  className="rounded-lg border border-gray-700 px-6 py-3 text-sm font-semibold text-gray-300 transition-all hover:border-gray-500 hover:text-white"
+                  className="rounded-lg border border-[#1E293B] px-6 py-3 text-sm font-semibold text-[#94A3B8] transition-all duration-200 hover:border-[rgba(37,99,235,0.6)] hover:text-[#F8FAFC]"
+                  style={{
+                    transition:
+                      'border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease',
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.backgroundColor = 'rgba(37,99,235,0.05)')
+                  }
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                 >
                   Read My Story
                 </Link>
               </div>
             </div>
 
-            {/* ── Right: Floating stat cards ── */}
-            <div className="hidden w-72 lg:block">
+            {/* ── Right: floating stat cards ── */}
+            <div className="hidden lg:block lg:w-72 xl:w-80">
               <div className="grid grid-cols-2 gap-3">
-                {stats.map((s) => (
+                {STATS.map((s) => (
                   <div
                     key={s.label}
-                    className={`${s.delay} rounded-xl border border-gray-800 bg-gray-900/80 p-4 backdrop-blur-sm`}
+                    className={`${s.cls} cursor-default rounded-xl border border-[#1E293B] bg-[#0D1117] p-5 transition-all duration-200 hover:border-[rgba(37,99,235,0.6)] hover:shadow-[0_0_20px_rgba(37,99,235,0.2)]`}
                   >
-                    <div className="text-2xl font-black text-blue-400">{s.val}</div>
-                    <div className="text-sm font-bold text-white">{s.label}</div>
-                    <div className="mt-1 text-xs leading-snug text-gray-500">{s.sub}</div>
+                    <div className="mb-1 text-3xl leading-none font-bold text-[#2563EB]">
+                      {s.val}
+                    </div>
+                    <div className="mb-1 text-sm font-semibold text-[#F8FAFC]">{s.label}</div>
+                    <div className="text-xs leading-snug text-[#94A3B8]">{s.sub}</div>
                   </div>
                 ))}
               </div>
@@ -204,93 +325,153 @@ export default function Home({
           </div>
 
           {/* Scroll indicator */}
-          <div className="mt-20 flex flex-col items-center gap-2">
-            <span className="text-[10px] tracking-widest text-gray-700 uppercase">scroll</span>
-            <div className="scroll-dot h-5 w-px rounded-full bg-blue-500/60" />
+          <div className="mt-20 flex flex-col items-center gap-3">
+            <span className="text-[10px] font-semibold tracking-[0.35em] text-[#475569]">
+              SCROLL
+            </span>
+            <div className="scroll-ind h-8 w-px rounded-full bg-[#2563EB]" />
           </div>
         </div>
       </section>
 
-      {/* ── TIMELINE ─────────────────────────────────────────────────── */}
-      <section style={fullBleed} className="overflow-hidden bg-[#0d0d0d] py-16">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+      {/* ════════════════════════════════════════════ THE EVOLUTION */}
+      <section style={FB} className="bg-black py-28">
+        <div className="mx-auto max-w-5xl px-6">
           <p
             data-reveal
-            className="mb-10 text-center text-xs font-semibold tracking-[0.2em] text-gray-600 uppercase"
+            className="mb-20 text-center text-[11px] font-bold tracking-[0.4em] text-[#475569]"
           >
-            The Evolution
+            THE EVOLUTION
           </p>
-          <div className="no-scrollbar flex gap-3 overflow-x-auto pb-2">
-            {timeline.map((item, i) => (
-              <div
-                key={item.year}
-                data-reveal
-                data-delay={String(i * 60)}
-                className="flex-none rounded-xl border border-gray-800/80 bg-gray-900/40 px-5 py-4 text-center transition-colors duration-200 hover:border-blue-500/40"
-                style={{ transitionDelay: `${i * 60}ms` }}
-              >
-                <div className="text-lg font-black text-blue-400">{item.year}</div>
-                <div className="mt-0.5 text-xs whitespace-nowrap text-gray-500">{item.label}</div>
-              </div>
-            ))}
+
+          <div className="relative">
+            {/* Vertical line — desktop (center) */}
+            <div
+              className="absolute top-4 bottom-4 left-1/2 hidden -translate-x-1/2 lg:block"
+              style={{
+                width: 1,
+                background:
+                  'linear-gradient(to bottom, transparent, #1E293B 8%, #1E293B 92%, transparent)',
+              }}
+            />
+            {/* Vertical line — mobile (left) */}
+            <div
+              className="absolute top-4 bottom-4 lg:hidden"
+              style={{
+                left: 11,
+                width: 1,
+                background:
+                  'linear-gradient(to bottom, transparent, #1E293B 8%, #1E293B 92%, transparent)',
+              }}
+            />
+
+            <div className="space-y-8">
+              {TIMELINE.map((item, i) => (
+                <div key={`${item.year}-${i}`} className="relative">
+                  {/* Desktop: alternating layout */}
+                  <div className="hidden lg:grid lg:grid-cols-[1fr_28px_1fr] lg:items-start">
+                    {/* Left col */}
+                    <div className="flex justify-end pr-10">
+                      {i % 2 === 0 ? (
+                        <div className="w-full max-w-[400px]">
+                          <TCard item={item} />
+                        </div>
+                      ) : (
+                        <div />
+                      )}
+                    </div>
+
+                    {/* Center dot */}
+                    <div className="flex justify-center pt-[26px]">
+                      <div
+                        className="relative z-10 h-3 w-3 flex-shrink-0 rounded-full"
+                        style={{
+                          backgroundColor: '#2563EB',
+                          boxShadow: '0 0 0 3px rgba(37,99,235,0.15), 0 0 12px rgba(37,99,235,0.6)',
+                        }}
+                      />
+                    </div>
+
+                    {/* Right col */}
+                    <div className="pl-10">
+                      {i % 2 !== 0 ? (
+                        <div className="w-full max-w-[400px]">
+                          <TCard item={item} />
+                        </div>
+                      ) : (
+                        <div />
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Mobile: single column */}
+                  <div className="pl-9 lg:hidden">
+                    <div
+                      className="absolute top-[26px] z-10 h-3 w-3 rounded-full"
+                      style={{
+                        left: 5,
+                        backgroundColor: '#2563EB',
+                        boxShadow: '0 0 0 3px rgba(37,99,235,0.15), 0 0 10px rgba(37,99,235,0.6)',
+                      }}
+                    />
+                    <TCard item={item} />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── PROJECTS ─────────────────────────────────────────────────── */}
-      <section style={fullBleed} className="bg-[#0a0a0a] py-24">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6">
-          <div data-reveal className="mb-14 text-center">
-            <h2 className="text-4xl font-black text-white sm:text-5xl">Things I've Built</h2>
-            <p className="mt-3 text-gray-600">Not demos. Not side projects. Production systems.</p>
+      {/* ════════════════════════════════════════ THINGS I'VE BUILT */}
+      <section style={FB} className="bg-black py-28">
+        <div className="mx-auto max-w-5xl px-6">
+          <div data-reveal className="mb-14">
+            <h2 className="text-4xl font-black text-[#F8FAFC] sm:text-5xl">Things I've Built</h2>
+            <p className="mt-3 text-[#94A3B8]">Not demos. Not side projects. Production systems.</p>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2">
-            {projects.map((p, i) => (
-              <Link
+            {PROJECTS.map((p, i) => (
+              <div
                 key={p.title}
-                href={p.href}
                 data-reveal
-                data-delay={String((i % 2) * 120)}
-                className={`group relative rounded-xl border border-gray-800/80 bg-gray-900/40 p-6 transition-all duration-300 hover:-translate-y-1 ${p.border} ${p.glow}`}
+                data-d={String((i % 2) + 1)}
+                className={`rounded-2xl border border-[#1E293B] bg-[#0D1117] p-8 transition-all duration-200 hover:-translate-y-1 ${p.hoverBorder} ${p.hoverGlow}`}
               >
                 <span
                   className={`mb-4 inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${p.tagStyle}`}
                 >
                   {p.tag}
                 </span>
-                <h3 className="mb-2 text-xl font-bold text-white">{p.title}</h3>
-                <p className="text-sm leading-relaxed text-gray-500">{p.desc}</p>
-                <div className="mt-5 text-xs font-semibold text-blue-400 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                  View project →
-                </div>
-              </Link>
+                <h3 className="mb-3 text-xl font-bold text-[#F8FAFC]">{p.title}</h3>
+                <p className="text-sm leading-relaxed text-[#94A3B8]">{p.desc}</p>
+                {p.link && (
+                  <Link
+                    href={p.link.href}
+                    className={`mt-5 inline-flex text-sm font-semibold transition-opacity hover:opacity-70 ${p.link.color}`}
+                  >
+                    {p.link.label}
+                  </Link>
+                )}
+              </div>
             ))}
-          </div>
-
-          <div data-reveal className="mt-10 text-center">
-            <Link
-              href="/projects"
-              className="text-sm font-medium text-gray-600 transition-colors hover:text-blue-400"
-            >
-              See all projects →
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* ── BLOG ─────────────────────────────────────────────────────── */}
+      {/* ═══════════════════════════════════════════ FROM THE BLOG */}
       {posts.length > 0 && (
-        <section style={fullBleed} className="bg-[#0d0d0d] py-24">
-          <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <div data-reveal className="mb-14 flex items-end justify-between">
+        <section style={FB} className="bg-black py-28">
+          <div className="mx-auto max-w-5xl px-6">
+            <div data-reveal className="mb-14 flex flex-wrap items-end justify-between gap-4">
               <div>
-                <h2 className="text-4xl font-black text-white sm:text-5xl">From The Blog</h2>
-                <p className="mt-3 text-gray-600">Real stories from real builds.</p>
+                <h2 className="text-4xl font-black text-[#F8FAFC] sm:text-5xl">From The Blog</h2>
+                <p className="mt-3 text-[#94A3B8]">Real stories from real builds.</p>
               </div>
               <Link
                 href="/blog"
-                className="text-sm font-medium text-gray-600 transition-colors hover:text-blue-400"
+                className="text-sm font-semibold text-[#2563EB] transition-opacity hover:opacity-70"
               >
                 All posts →
               </Link>
@@ -304,17 +485,17 @@ export default function Home({
                     key={slug}
                     href={`/blog/${slug}`}
                     data-reveal
-                    data-delay={String(i * 120)}
-                    className="group rounded-xl border border-gray-800/80 bg-gray-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gray-700"
+                    data-d={String(i + 1)}
+                    className="group rounded-2xl border border-[#1E293B] bg-[#0D1117] p-7 transition-all duration-200 hover:-translate-y-1 hover:border-[rgba(37,99,235,0.5)] hover:shadow-[0_0_24px_rgba(37,99,235,0.1)]"
                   >
-                    <time className="text-xs text-gray-700" dateTime={date}>
+                    <time className="text-xs text-[#475569]" dateTime={date}>
                       {formatDate(date, siteMetadata.locale)}
                     </time>
-                    <h3 className="mt-3 text-lg leading-snug font-bold text-white transition-colors group-hover:text-blue-400">
+                    <h3 className="mt-3 text-lg leading-snug font-bold text-[#F8FAFC] transition-colors duration-200 group-hover:text-[#60A5FA]">
                       {title}
                     </h3>
                     {summary && (
-                      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-gray-600">
+                      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-[#94A3B8]">
                         {summary}
                       </p>
                     )}
@@ -326,33 +507,69 @@ export default function Home({
         </section>
       )}
 
-      {/* ── CTA BANNER ───────────────────────────────────────────────── */}
-      <section style={fullBleed} className="relative overflow-hidden bg-[#0a0a0a] py-28">
-        {/* Edge glow lines */}
-        <div className="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
-        <div className="absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
+      {/* ══════════════════════════════════════════════ CTA BANNER */}
+      <section
+        style={{ ...FB, background: 'linear-gradient(135deg, #000000 0%, #0a1628 100%)' }}
+        className="border-y border-[#1E293B] py-28"
+      >
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:justify-between">
+            {/* Left */}
+            <div data-reveal className="space-y-5">
+              <p className="text-xs font-bold tracking-[0.3em] text-[#2563EB]">
+                OPEN TO OPPORTUNITIES
+              </p>
+              <div>
+                <h2 className="text-4xl font-black text-[#F8FAFC] sm:text-5xl">
+                  Building something
+                </h2>
+                <h2 className="text-4xl font-black text-[#F8FAFC] sm:text-5xl">
+                  ambitious with AI?
+                </h2>
+              </div>
+              <p className="max-w-md text-[#94A3B8]">
+                I'm looking for Senior / Principal Engineer or founding team roles at AI-first
+                companies.{' '}
+                <span className="text-[#F8FAFC]">Remote. Global. Serious work only.</span>
+              </p>
+            </div>
 
-        {/* Side ambient glow */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-900/10 via-transparent to-blue-900/10" />
-
-        {/* Center blob */}
-        <div className="pointer-events-none absolute top-1/2 left-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-700/8 blur-[100px]" />
-
-        <div data-reveal className="relative mx-auto max-w-2xl px-4 text-center sm:px-6">
-          <h2 className="text-4xl leading-tight font-black text-white sm:text-5xl">
-            Building something ambitious <span className="text-blue-400">with AI?</span>
-          </h2>
-          <p className="mx-auto mt-5 max-w-md text-lg leading-relaxed text-gray-400">
-            I'm open to Senior/Principal Engineer and founding team roles.{' '}
-            <span className="text-gray-300">Remote. Global.</span>
-          </p>
-          <div className="mt-10">
-            <Link
-              href="mailto:gaurav.arora90@gmail.com"
-              className="inline-flex items-center rounded-lg bg-blue-500 px-8 py-4 text-base font-semibold text-white transition-all hover:bg-blue-400 hover:shadow-[0_0_32px_rgba(59,130,246,0.55)]"
-            >
-              Let's Talk →
-            </Link>
+            {/* Right */}
+            <div data-reveal data-d="2" className="flex flex-col items-start gap-5 lg:items-center">
+              <Link
+                href="mailto:gaurav.arora90@gmail.com"
+                className="rounded-lg px-8 py-4 text-base font-semibold text-white transition-all duration-200 hover:scale-[1.02]"
+                style={{ backgroundColor: '#2563EB' }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.boxShadow = '0 0 32px rgba(37,99,235,0.55)')
+                }
+                onMouseLeave={(e) => (e.currentTarget.style.boxShadow = 'none')}
+              >
+                Let's Talk →
+              </Link>
+              <div className="flex items-center gap-3 text-sm text-[#475569]">
+                <Link
+                  href="https://github.com/gauravarora90"
+                  className="transition-colors hover:text-[#F8FAFC]"
+                >
+                  GitHub
+                </Link>
+                <span>·</span>
+                <Link
+                  href="https://www.linkedin.com/in/gaurav-arora-7933692a/"
+                  className="transition-colors hover:text-[#F8FAFC]"
+                >
+                  LinkedIn
+                </Link>
+                <span>·</span>
+                <Link
+                  href="mailto:gaurav.arora90@gmail.com"
+                  className="transition-colors hover:text-[#F8FAFC]"
+                >
+                  Email
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
