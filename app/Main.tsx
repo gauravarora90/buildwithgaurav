@@ -191,7 +191,6 @@ export default function Home({
       <style>{`
         @keyframes badgeDot  { 0%,100%{opacity:1}   50%{opacity:0.25} }
         @keyframes floatUp   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-        @keyframes scrollInd { 0%,100%{opacity:0.25;transform:scaleY(0.15)} 50%{opacity:1;transform:scaleY(1)} }
         @keyframes specialCard {
           0%,100% { box-shadow: 0 0 0 0 rgba(37,99,235,0), 0 0 0 1px #1E293B; }
           50%     { box-shadow: 0 0 28px rgba(37,99,235,0.3), 0 0 0 1px rgba(37,99,235,0.8); }
@@ -201,7 +200,6 @@ export default function Home({
         .float-1    { animation: floatUp   3s   ease-in-out infinite 0.5s; }
         .float-2    { animation: floatUp   3s   ease-in-out infinite 1s; }
         .float-3    { animation: floatUp   3s   ease-in-out infinite 1.5s; }
-        .scroll-ind { animation: scrollInd 1.5s ease-in-out infinite; transform-origin: top; }
         .special-card { animation: specialCard 2s ease-in-out infinite; }
 
         [data-reveal] {
@@ -322,14 +320,6 @@ export default function Home({
                 ))}
               </div>
             </div>
-          </div>
-
-          {/* Scroll indicator */}
-          <div className="mt-20 flex flex-col items-center gap-3">
-            <span className="text-[10px] font-semibold tracking-[0.35em] text-[#475569]">
-              SCROLL
-            </span>
-            <div className="scroll-ind h-8 w-px rounded-full bg-[#2563EB]" />
           </div>
         </div>
       </section>
