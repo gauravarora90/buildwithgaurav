@@ -1,15 +1,15 @@
 import Image from './Image'
 import Link from './Link'
 
-const Card = ({ title, description, imgSrc, href }) => (
+const Card = ({ title, description, imgSrc, href, gradient, icon }) => (
   <div className="md max-w-[544px] p-4 md:w-1/2">
     <div
       className={`${
-        imgSrc && 'h-full'
+        imgSrc || gradient ? 'h-full' : ''
       } overflow-hidden rounded-md border-2 border-gray-200/60 dark:border-gray-700/60`}
     >
-      {imgSrc &&
-        (href ? (
+      {imgSrc ? (
+        href ? (
           <Link href={href} aria-label={`Link to ${title}`}>
             <Image
               alt={title}
@@ -27,7 +27,14 @@ const Card = ({ title, description, imgSrc, href }) => (
             width={544}
             height={306}
           />
-        ))}
+        )
+      ) : gradient ? (
+        <div
+          className={`bg-gradient-to-br ${gradient} flex h-36 items-center justify-center lg:h-48`}
+        >
+          <span className="text-6xl drop-shadow-lg select-none">{icon}</span>
+        </div>
+      ) : null}
       <div className="p-6">
         <h2 className="mb-3 text-2xl leading-8 font-bold tracking-tight">
           {href ? (

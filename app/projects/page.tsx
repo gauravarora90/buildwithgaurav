@@ -13,7 +13,8 @@ export default function Projects() {
             Projects
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            Showcase your projects with a hero image (16 x 9)
+            Things I&apos;ve built — from AI agents to payment systems to digital banking platforms
+            deployed across 15+ countries.
           </p>
         </div>
         <div className="container py-12">
@@ -25,6 +26,8 @@ export default function Projects() {
                 description={d.description}
                 imgSrc={d.imgSrc}
                 href={d.href}
+                gradient={d.gradient}
+                icon={d.icon}
               />
             ))}
           </div>

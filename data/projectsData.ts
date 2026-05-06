@@ -3,31 +3,37 @@ interface Project {
   description: string
   href?: string
   imgSrc?: string
+  gradient?: string
+  icon?: string
 }
 
 const projectsData: Project[] = [
   {
-    title: 'Mira Bot — AI Telegram Agent',
-    description: `An AI-powered Telegram agent built with OpenAI that automates GitHub workflows and CleverTap analytics. Mira handles repository events, surfaces insights, and takes action — all from a chat interface. Built to eliminate manual toil for engineering and growth teams.`,
-    imgSrc: '/static/images/projects/mira-bot.png',
+    title: 'Chhotu Bot — AI Telegram Assistant',
+    description: `Kuch karna hai? Chhotu se karwa lo. An AI-powered Telegram assistant built with OpenAI that handles GitHub PR summaries, CleverTap analytics reports, and DigitalOcean cron monitoring — all via simple chat commands. Three commands replaced 90 minutes of daily dashboard-checking.`,
+    gradient: 'from-violet-500 to-purple-700',
+    icon: '🤖',
     href: 'https://github.com/gauravarora90',
   },
   {
-    title: 'NFC Tap & Pay — Closed Loop Prepaid System',
-    description: `A complete closed-loop NFC prepaid payment system enabling contactless tap-and-pay transactions. Designed from the ground up with card issuance, wallet management, merchant integration, and real-time transaction processing — all without relying on open-loop card networks.`,
-    imgSrc: '/static/images/projects/nfc-tap-pay.png',
+    title: 'NFC Tap & Pay — Closed Loop Prepaid',
+    description: `A complete closed-loop NFC prepaid payment system built solo — hardware integration, backend API, transaction engine, and merchant dashboard. Sub-300ms tap-to-acknowledgement. Deployed for real users processing real transactions.`,
+    gradient: 'from-cyan-500 to-blue-700',
+    icon: '📲',
     href: 'https://www.raaho.in',
   },
   {
     title: 'DBXP — Digital Banking Platform',
-    description: `A modular digital banking platform deployed across 15+ countries. DBXP powers core banking operations including accounts, cards, transfers, and compliance — built to support rapid market expansion with a single, configurable codebase.`,
-    imgSrc: '/static/images/projects/dbxp.png',
+    description: `A modular digital banking platform deployed across 15+ countries. Powers core banking operations — accounts, cards, transfers, and compliance — built to support rapid market expansion with a single configurable codebase.`,
+    gradient: 'from-emerald-500 to-teal-700',
+    icon: '🏦',
     href: 'https://www.linkedin.com/in/gaurav-arora-7933692a/',
   },
   {
     title: "Zoto — Nigeria's #1 Payments Super App",
-    description: `Led engineering on Zoto, Nigeria's leading payments super-app, enabling millions of users to send money, pay bills, and access financial services via mobile. Scaled the platform to handle high-volume transactions across a complex fintech regulatory environment.`,
-    imgSrc: '/static/images/projects/zoto.png',
+    description: `Led engineering on Zoto, Nigeria's leading payments super-app — enabling millions of users to send money, pay bills, and access financial services via mobile. Scaled the platform to handle high-volume transactions across a complex fintech regulatory environment.`,
+    gradient: 'from-orange-500 to-red-600',
+    icon: '💸',
     href: 'https://www.linkedin.com/in/gaurav-arora-7933692a/',
   },
 ]
