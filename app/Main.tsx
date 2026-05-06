@@ -506,21 +506,19 @@ export default function Home({
           <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:justify-between">
             {/* Left */}
             <div data-reveal className="space-y-5">
-              <p className="text-xs font-bold tracking-[0.3em] text-[#2563EB]">
-                OPEN TO OPPORTUNITIES
-              </p>
+              <p className="text-xs font-bold tracking-[0.3em] text-[#2563EB]">NEXT CHAPTER</p>
               <div>
                 <h2 className="text-4xl font-black text-[#F8FAFC] sm:text-5xl">
-                  Building something
+                  Got a hard problem
                 </h2>
-                <h2 className="text-4xl font-black text-[#F8FAFC] sm:text-5xl">
-                  ambitious with AI?
+                <h2 className="text-4xl font-black sm:text-5xl" style={{ color: '#2563EB' }}>
+                  and AI in the mix?
                 </h2>
               </div>
               <p className="max-w-md text-[#94A3B8]">
-                I'm looking for Senior / Principal Engineer or founding team roles at AI-first
-                companies.{' '}
-                <span className="text-[#F8FAFC]">Remote. Global. Serious work only.</span>
+                15 years of shipping gives you a certain radar for what's real and what's hype. If
+                you're building something that actually matters —{' '}
+                <span className="text-[#F8FAFC]">let's talk.</span>
               </p>
             </div>
 
@@ -535,7 +533,7 @@ export default function Home({
                 }
                 onMouseLeave={(e) => (e.currentTarget.style.boxShadow = 'none')}
               >
-                Let's Talk →
+                Start a conversation →
               </Link>
               <div className="flex items-center gap-3 text-sm text-[#475569]">
                 <Link
