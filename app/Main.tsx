@@ -240,7 +240,7 @@ export default function Home({
                 }}
               >
                 <span className="badge-dot h-2 w-2 flex-shrink-0 rounded-full bg-[#2563EB]" />
-                Available for AI-First Companies · Remote · Global
+                Building at the intersection of AI + Product
               </div>
 
               {/* Headline */}
