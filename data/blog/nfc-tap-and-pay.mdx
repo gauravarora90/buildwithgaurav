@@ -1,0 +1,114 @@
+---
+title: "I Built a Complete Tap & Pay System Alone. Here's What Nobody Tells You."
+date: '2024-10-22'
+tags: ['NFC', 'Payments', 'Fintech', 'Engineering']
+draft: false
+summary: "Most payment systems are built by teams of 20 or more. I built one alone — hardware, backend, dashboard, the whole thing. This is the honest story of what that actually took, and what I'd tell any solo engineer attempting something like it."
+authors: ['default']
+---
+
+Most payment systems are built by teams of 20 or more.
+
+Dedicated hardware engineers. Backend specialists. Security architects. Compliance leads. QA teams. PMs translating between all of them. There's a reason fintech companies raise tens of millions before they process their first transaction.
+
+I had myself.
+
+No co-founder. No team. One engineer, one problem, and a deadline that didn't care about either.
+
+This is the real story of building a complete closed-loop NFC prepaid payment system — hardware integration, backend, merchant dashboard, transaction engine — from scratch. What worked, what nearly broke me, and the one moment when all of it suddenly became worth it.
+
+## What "Closed Loop" Actually Means
+
+Before I get into the build, let me explain what I actually built — because "NFC payments" means different things to different people.
+
+Open-loop payments are what you use when you tap your Visa card at a coffee shop. The transaction touches multiple banks, card networks, and clearing houses. It's powerful and universal, and it is also extraordinarily complex and regulated.
+
+Closed-loop is different. A closed-loop prepaid system means the money lives entirely within your own ecosystem. Users load value onto an NFC card or tag — think transit cards, campus meal plans, employee cafeteria payments, festival wristbands. When they tap to pay, the transaction happens entirely within your system. No card networks. No external clearing. You own the full stack.
+
+The trade-off: you have more control and far less regulatory overhead. The catch: you have to _build_ everything that Visa and Mastercard normally do for you.
+
+That meant:
+
+- **NFC hardware integration** — reading card UIDs, managing tap events, handling edge cases in RF communication
+- **A prepaid wallet engine** — card issuance, balance management, top-up flows, transaction ledgering
+- **A backend API** — fast enough that a tap feels instant (under 300ms end-to-end)
+- **A merchant dashboard** — so operators could see transactions, manage float, handle refunds
+- **Security** — because this is money, and money attracts people who want to take yours
+
+One engineer. All of it.
+
+## The Hardest Technical Problem Nobody Warned Me About
+
+I expected the payment logic to be hard. Ledgering, idempotency, race conditions on concurrent taps — I'd read about these, I'd thought about them, I was prepared.
+
+What I was _not_ prepared for was the hardware layer.
+
+NFC readers are not like REST APIs. They don't return clean JSON. They don't have retry logic. They don't give you useful error messages. An NFC tap is a physical, real-time RF event that lasts maybe 100 milliseconds. If your reader misses it — latency, timing, a slightly off-angle card — you get nothing. No error. No signal. Just silence.
+
+Early in the build, I had a maddening bug: roughly 1 in 12 taps was silently failing. The card would tap. Nothing would happen. The user would tap again. It would work.
+
+An 8% failure rate on a payment system is catastrophic. You can't ship that.
+
+I spent two weeks on this problem. I read NFC Forum specifications that were clearly written by people who had never met a deadline. I experimented with polling intervals, antenna sensitivity settings, card detection thresholds. I logged every RF event at the hardware level and stared at timestamps trying to find the pattern.
+
+The root cause: I was processing the tap event synchronously on the main thread of the reader firmware. On a slow day, a database round-trip during that window would push the total processing time past the card's RF timeout. The card would disengage. Transaction: lost.
+
+The fix was conceptually simple — move the database call off the critical path, acknowledge the tap immediately, process asynchronously — but getting there required understanding a layer of the system I hadn't expected to touch. Hardware timing. Firmware behaviour. Physics, essentially.
+
+That's the thing nobody tells you about building payment systems alone: the problems don't stay in their lanes.
+
+## The Moment It First Actually Worked
+
+I remember the exact moment.
+
+It was late. I'd been at it for hours. I had a test card loaded with ₹500 of dummy balance, a reader sitting on my desk, and a terminal window open showing live transaction logs.
+
+I picked up the card. Tapped.
+
+The reader beeped. The terminal printed a transaction record. The balance updated. The merchant dashboard — a browser tab I had open on a second monitor — refreshed and showed the deducted amount in real time.
+
+300 milliseconds, start to finish.
+
+I sat back and just stared at it for a minute. Something I had built — entirely alone, in a room, writing code and soldering nothing and arguing with documentation — had just done the thing that millions of real payment terminals do millions of times a day.
+
+It felt absurd and obvious at the same time.
+
+I tapped the card again, just to make sure it wasn't a fluke. It worked again. I tapped it five more times. It worked every time.
+
+That's the moment I became a fintech engineer. Not when I got the job. Not when I learned the theory. When money moved because of code I had written.
+
+## What Solo Payment Engineering Actually Requires
+
+I've had engineers ask me: "Is it realistic to build a payment system alone?"
+
+My honest answer: it depends what you mean by alone, and it depends what you mean by realistic.
+
+Here's what I'd tell anyone attempting it:
+
+**You must be paranoid about money consistency.** Every transaction is a financial record. Idempotency isn't optional — if a network hiccup causes a retry, you cannot double-charge. I built idempotency keys into every write operation from day one and treated any deviation from that as a critical bug. Not a medium. Not a low. A blocker.
+
+**Security is not a phase.** I see engineers who plan to "add security later." In payments, there is no later. Card UIDs need to be treated as sensitive identifiers. Balance mutations need to be logged immutably. API endpoints that touch money need rate limiting, authentication, and audit trails from the first line of code.
+
+**The dashboard matters more than you think.** The backend can be perfect. If the operators using your system can't understand what's happening — if they can't see float, run reports, trace a transaction — they will lose trust in the system. I spent real time on the merchant dashboard and it was some of the highest-leverage work I did.
+
+**Know where your complexity ceiling is.** Closed-loop gave me a tractable scope. I was not dealing with card network certification, PCI-DSS Level 1 compliance, or cross-bank settlement. Those are real, legitimate reasons why open-loop payment companies have 20-person teams. Know what you're building and respect the boundaries of that problem.
+
+**Latency is a product feature.** Payments need to feel instant. A tap that takes 800ms doesn't feel like technology — it feels like a bug. I optimized the happy path relentlessly. Every millisecond I shaved off the tap-to-acknowledgement loop was a millisecond of trust I was building with users.
+
+## What This Project Gave Me
+
+Beyond the system itself, building the NFC Tap & Pay system alone gave me something I couldn't have gotten any other way: a complete mental model of how payments work at every layer.
+
+Most engineers who work on payment systems understand their slice — the API layer, the frontend, the data model. Because I built all of it, I understand how each layer constrains and enables the others. That cross-layer intuition is now one of the most valuable things I bring to any product conversation.
+
+It also taught me to be comfortable with discomfort. There were weeks where I had no idea if what I was building would work. No senior engineer to ask. No precedent to follow. Just the problem, the documentation, and the decision of whether to push forward or go to sleep.
+
+I almost always pushed forward. It almost always paid off.
+
+---
+
+If you're building something in payments, fintech, or just something technically hard — alone or with a small team — I'd love to compare notes.
+
+**Building something alone? Let's talk.** Find me on LinkedIn or drop a comment. The loneliness of solo builds is real, but so is the clarity it forces on you.
+
+There's nothing quite like shipping something that actually moves money.
