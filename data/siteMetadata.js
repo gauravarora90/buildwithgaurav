@@ -6,7 +6,7 @@ const siteMetadata = {
   description:
     "I don't just ship products — I build systems that scale. Principal Product Engineer with 15+ years in fintech, logistics tech, and AI.",
   language: 'en-us',
-  theme: 'system', // system, dark or light
+  theme: 'dark', // system, dark or light
   siteUrl: 'https://buildwithgaurav.vercel.app',
   siteRepo: 'https://github.com/gauravarora90/buildwithgaurav',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
