@@ -216,7 +216,7 @@ export default function Home({
       {/* ════════════════════════════════════════════════════════ HERO */}
       <section
         style={FB}
-        className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-black px-6 py-24"
+        className="relative flex min-h-[calc(100vh-5rem)] flex-col justify-start overflow-hidden bg-black px-6 pt-10 pb-20 sm:pt-14 sm:pb-24"
       >
         {/* Top-right nebula glow */}
         <div
