@@ -137,9 +137,7 @@ export default function Home({
           />
           <div>
             <div className="text-[15px] font-semibold text-neutral-950">Gaurav Arora</div>
-            <div className="text-sm text-neutral-500">
-              Principal Product Engineer · Leading engineering at Raaho
-            </div>
+            <div className="text-sm text-neutral-500">Principal Product Engineer at Raaho</div>
           </div>
         </div>
 
@@ -342,9 +340,9 @@ export default function Home({
         </h2>
         <p className="mt-3 max-w-xl leading-relaxed text-neutral-600">
           15 years of shipping gives you a certain radar for what&apos;s real and what&apos;s hype.
-          I&apos;m leading engineering at Raaho today, and I&apos;m open to principal and staff
-          engineering roles at AI-first companies. If you&apos;re building something that actually
-          matters, let&apos;s talk.
+          I&apos;m a Principal Product Engineer at Raaho today, and I&apos;m open to principal and
+          staff engineering roles at AI-first companies. If you&apos;re building something that
+          actually matters, let&apos;s talk.
         </p>
         <div className="mt-7 flex flex-wrap items-center gap-3">
           <Link href={`mailto:${siteMetadata.email}`} className={BTN_PRIMARY}>
