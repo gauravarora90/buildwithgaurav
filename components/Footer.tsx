@@ -10,11 +10,11 @@ const LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-8 text-sm text-zinc-500 sm:flex-row">
+    <footer className="flex flex-col items-center justify-between gap-4 border-t border-neutral-200 py-8 text-sm text-neutral-500 sm:flex-row">
       <p>© {new Date().getFullYear()} Gaurav Arora</p>
       <div className="flex items-center gap-5">
         {LINKS.map((l) => (
-          <Link key={l.title} href={l.href} className="transition-colors hover:text-zinc-200">
+          <Link key={l.title} href={l.href} className="transition-colors hover:text-neutral-950">
             {l.title}
           </Link>
         ))}

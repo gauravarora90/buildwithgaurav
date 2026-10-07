@@ -10,34 +10,33 @@
   --font-sans:
     var(--font-inter), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-display:
-    var(--font-space-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Colors */
   /* primary = Tailwind's blue. Copied from https://tailwindcss.com/docs/theme#default-theme-variable-reference */
   --color-primary-50: oklch(0.97 0.014 254.604);
   --color-primary-100: oklch(0.932 0.032 255.585);
   --color-primary-200: oklch(0.882 0.059 254.128);
-  --color-primary-300: oklch(0.809 0.105 251.813);
-  --color-primary-400: oklch(0.707 0.165 254.624);
-  --color-primary-500: oklch(0.623 0.214 259.815);
-  --color-primary-600: oklch(0.546 0.245 262.881);
+  --color-primary-300: oklch(0.707 0.165 254.624);
+  --color-primary-400: oklch(0.546 0.245 262.881);
+  --color-primary-500: oklch(0.488 0.243 264.376);
+  --color-primary-600: oklch(0.424 0.199 265.638);
   --color-primary-700: oklch(0.488 0.243 264.376);
   --color-primary-800: oklch(0.424 0.199 265.638);
   --color-primary-900: oklch(0.379 0.146 265.522);
   --color-primary-950: oklch(0.282 0.091 267.935);
 
-  --color-gray-50: oklch(0.985 0.002 247.839);
-  --color-gray-100: oklch(0.967 0.003 264.542);
-  --color-gray-200: oklch(0.928 0.006 264.531);
-  --color-gray-300: oklch(0.872 0.01 258.338);
-  --color-gray-400: oklch(0.707 0.022 261.325);
-  --color-gray-500: oklch(0.551 0.027 264.364);
-  --color-gray-600: oklch(0.446 0.03 256.802);
-  --color-gray-700: oklch(0.373 0.034 259.733);
-  --color-gray-800: oklch(0.278 0.033 256.848);
-  --color-gray-900: oklch(0.21 0.034 264.665);
-  --color-gray-950: oklch(0.13 0.028 261.692);
+  --color-gray-50: oklch(0.985 0 0);
+  --color-gray-100: oklch(0.97 0 0);
+  --color-gray-200: oklch(0.922 0 0);
+  --color-gray-300: oklch(0.87 0 0);
+  --color-gray-400: oklch(0.708 0 0);
+  --color-gray-500: oklch(0.556 0 0);
+  --color-gray-600: oklch(0.439 0 0);
+  --color-gray-700: oklch(0.371 0 0);
+  --color-gray-800: oklch(0.269 0 0);
+  --color-gray-900: oklch(0.205 0 0);
+  --color-gray-950: oklch(0.145 0 0);
 
   /* Line heights */
   --line-height-11: 2.75rem;
@@ -98,9 +97,6 @@
     }
     & h3 {
       font-weight: 600;
-    }
-    & :where(code):not(pre code) {
-      color: var(--color-indigo-500);
     }
   }
 
@@ -179,29 +175,21 @@ input:-webkit-autofill:focus {
 
 /* ─── Portfolio global styles ─────────────────────────────────────────── */
 
-/* Text selection */
 ::selection {
-  background-color: rgba(37, 99, 235, 0.3);
-  color: #f8fafc;
+  background-color: #171717;
+  color: #fafafa;
 }
 
-/* Thin dark scrollbar */
-::-webkit-scrollbar {
-  width: 5px;
-}
-::-webkit-scrollbar-track {
-  background: #09090b;
-}
-::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
-}
-
-/* Firefox scrollbar */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #1e293b #09090b;
+/* Inline code: a quiet chip, without the typography plugin's backticks */
+.prose :where(code):not(pre code) {
+  color: var(--color-gray-900);
+  background-color: var(--color-gray-100);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  font-weight: 500;
+  &::before,
+  &::after {
+    content: none;
+  }
 }

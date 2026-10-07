@@ -4,18 +4,18 @@ function Node({ title, sub, accent }: { title: string; sub: string; accent?: boo
   return (
     <div
       className={`rounded-lg border px-4 py-3 ${
-        accent ? 'border-blue-500/40 bg-blue-500/10' : 'border-white/10 bg-white/[0.03]'
+        accent ? 'border-neutral-900 bg-white' : 'border-neutral-200 bg-white'
       }`}
     >
-      <div className="text-sm font-semibold text-zinc-100">{title}</div>
-      <div className="mt-1 text-xs leading-snug text-zinc-400">{sub}</div>
+      <div className="text-sm font-semibold text-neutral-950">{title}</div>
+      <div className="mt-1 text-xs leading-snug text-neutral-600">{sub}</div>
     </div>
   )
 }
 
 function Arrow() {
   return (
-    <div aria-hidden="true" className="flex items-center justify-center text-zinc-600">
+    <div aria-hidden="true" className="flex items-center justify-center text-neutral-400">
       <span className="md:hidden">↓</span>
       <span className="hidden md:inline">→</span>
     </div>
@@ -25,9 +25,7 @@ function Arrow() {
 function Lane({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="mb-3 text-[11px] font-semibold tracking-[0.18em] text-zinc-500 uppercase">
-        {label}
-      </div>
+      <div className="mb-3 font-mono text-xs text-neutral-500">{label}</div>
       {children}
     </div>
   )
@@ -49,7 +47,7 @@ const TOOLS = [
 
 export default function ZenithDiagram() {
   return (
-    <figure className="not-prose my-10 space-y-7 rounded-2xl border border-white/10 bg-zinc-900/40 p-5 sm:p-7">
+    <figure className="not-prose my-10 space-y-7 rounded-xl border border-neutral-200 bg-neutral-50 p-5 sm:p-7">
       <Lane label="Request path">
         <div className={FLOW}>
           <Node
@@ -77,13 +75,13 @@ export default function ZenithDiagram() {
           {TOOLS.map((t) => (
             <li
               key={t}
-              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-zinc-300"
+              className="rounded border border-neutral-200 bg-white px-2.5 py-1 text-xs text-neutral-700"
             >
               {t}
             </li>
           ))}
         </ul>
-        <p className="mt-3 text-xs leading-relaxed text-zinc-400">
+        <p className="mt-3 text-xs leading-relaxed text-neutral-600">
           Read-only or draft-only. Ownership and PII checks run in code on every call. Refunds and
           ticket submissions are carried out by the app, after the user taps.
         </p>

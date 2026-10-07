@@ -6,7 +6,7 @@ const siteMetadata = {
   description:
     'Principal Product Engineer with 15+ years in fintech, logistics tech and AI. I build production systems, most recently Zenith, an AI support agent live inside a ticketing app.',
   language: 'en-us',
-  theme: 'dark', // system, dark or light
+  theme: 'light', // system, dark or light
   siteUrl: 'https://buildwithgaurav.me',
   siteRepo: 'https://github.com/gauravarora90/buildwithgaurav',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,

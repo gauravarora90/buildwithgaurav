@@ -5,20 +5,19 @@ import MobileNav from './MobileNav'
 import SearchButton from './SearchButton'
 
 const Header = () => {
-  // The box-shadow + clip-path pair paints the bar edge to edge although the header sits in a centred column.
+  // The box-shadow + clip-path pair paints the bar edge to edge although the header sits in a
+  // centred column; the ::after is its bottom border, stretched the same way.
   let headerClass =
-    'flex w-full items-center justify-between bg-zinc-950 py-5 shadow-[0_0_0_100vmax_#09090b] [clip-path:inset(0_-100vmax)]'
-  if (siteMetadata.stickyNav) {
-    headerClass += ' sticky top-0 z-50'
-  }
+    'flex w-full items-center justify-between bg-neutral-50 py-4 shadow-[0_0_0_100vmax_#fafafa] [clip-path:inset(0_-100vmax)] after:absolute after:inset-x-[-100vmax] after:bottom-0 after:h-px after:bg-neutral-200'
+  headerClass += siteMetadata.stickyNav ? ' sticky top-0 z-50' : ' relative'
 
   return (
     <header className={headerClass}>
-      <Link href="/" aria-label={siteMetadata.headerTitle} className="flex items-center gap-3">
-        <span className="font-display flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-sm font-bold text-white">
+      <Link href="/" aria-label={siteMetadata.headerTitle} className="flex items-center gap-2.5">
+        <span className="flex h-8 w-8 items-center justify-center rounded-md bg-neutral-900 text-xs font-bold tracking-tight text-white">
           GA
         </span>
-        <span className="font-display text-lg font-semibold text-zinc-50">
+        <span className="text-[15px] font-semibold text-neutral-950">
           {siteMetadata.headerTitle}
         </span>
       </Link>
@@ -30,7 +29,7 @@ const Header = () => {
               <Link
                 key={link.title}
                 href={link.href}
-                className="text-sm font-medium text-zinc-300 transition-colors hover:text-white"
+                className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-950"
               >
                 {link.title}
               </Link>
@@ -39,7 +38,7 @@ const Header = () => {
         <SearchButton />
         <Link
           href={`mailto:${siteMetadata.email}`}
-          className="hidden rounded-lg border border-white/15 px-3.5 py-1.5 text-sm font-semibold text-zinc-100 transition-colors hover:border-white/30 hover:bg-white/5 sm:inline-flex"
+          className="hidden rounded-md bg-neutral-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-neutral-700 sm:inline-flex"
         >
           Contact
         </Link>
