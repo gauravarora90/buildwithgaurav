@@ -5,6 +5,7 @@ const LINKS = [
   { title: 'Email', href: `mailto:${siteMetadata.email}` },
   { title: 'LinkedIn', href: siteMetadata.linkedin as string },
   { title: 'GitHub', href: siteMetadata.github as string },
+  { title: 'Resume', href: `${siteMetadata.siteUrl}/static/Gaurav_Arora_Resume.pdf` },
   { title: 'RSS', href: '/feed.xml' },
 ]
 

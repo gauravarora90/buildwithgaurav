@@ -52,6 +52,13 @@ const TIMELINE: TItem[] = [
     tag: 'Data-driven product',
   },
   {
+    year: '2023',
+    title: 'Built a Payment System. Alone.',
+    story:
+      "Complete closed-loop NFC Tap & Pay prepaid system. Hardware integration, backend API, transaction engine, merchant dashboard — every layer, solo. When you're the only one who can fix it, you learn everything.",
+    tag: 'Full stack · solo',
+  },
+  {
     year: '2022',
     title: 'AI Unlocked New Languages',
     story:
@@ -66,25 +73,18 @@ const TIMELINE: TItem[] = [
     tag: 'Raaho · present',
   },
   {
-    year: '2021',
-    title: 'Built a Payment System. Alone.',
-    story:
-      "Complete closed-loop NFC Tap & Pay prepaid system. Hardware integration, backend API, transaction engine, merchant dashboard — every layer, solo. When you're the only one who can fix it, you learn everything.",
-    tag: 'Full stack · solo',
-  },
-  {
-    year: '2019',
-    title: 'Fintech Changed Everything',
-    story:
-      "Built Zoto — Nigeria's #1 payments super-app. Then DBXP — live across 15+ countries. Real money moving through systems I built. Learned what engineering means when it has to work — no exceptions.",
-    tag: 'Fintech at scale',
-  },
-  {
     year: '2018',
     title: 'Added iOS',
     story:
       'Why stop at one platform? Expanded cross-platform without a team. One engineer, two ecosystems, zero excuses. Doubled the surface area, sharpened the instincts.',
     tag: 'Cross-platform',
+  },
+  {
+    year: '2016',
+    title: 'Fintech Changed Everything',
+    story:
+      "Built Zoto — Nigeria's #1 payments super-app. Then DBXP — live across 15+ countries. Real money moving through systems I built. Learned what engineering means when it has to work — no exceptions.",
+    tag: 'Fintech at scale',
   },
   {
     year: '2011',
@@ -95,6 +95,7 @@ const TIMELINE: TItem[] = [
   },
 ]
 
+const RESUME = '/static/Gaurav_Arora_Resume.pdf'
 const ZENITH = projectsData[0]
 const OTHER_WORK = projectsData.filter((p) => !p.featured)
 
@@ -158,6 +159,9 @@ export default function Home({
           <Link href="/blog/zenith-ai-support-agent" className={BTN_SECONDARY}>
             Zenith case study
           </Link>
+          <a href={RESUME} target="_blank" rel="noopener noreferrer" className={BTN_SECONDARY}>
+            Resume (PDF)
+          </a>
           <Link href={`mailto:${siteMetadata.email}`} className={`${TEXT_LINK} ml-1`}>
             Email me
           </Link>

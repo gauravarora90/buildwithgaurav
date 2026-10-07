@@ -42,7 +42,7 @@ const projectsData: Project[] = [
   {
     title: 'NFC Tap & Pay',
     kind: 'Fintech · solo build',
-    year: '2021',
+    year: '2023',
     description:
       'A complete closed-loop NFC prepaid payment system: hardware integration, backend API, transaction engine and merchant dashboard.',
     highlights: [
@@ -56,7 +56,7 @@ const projectsData: Project[] = [
   {
     title: 'DBXP',
     kind: 'Digital banking platform',
-    year: '2019',
+    year: '2018–21',
     description:
       'A modular digital banking platform covering accounts, cards, transfers and compliance, built so one configurable codebase can serve many markets.',
     highlights: ['Live in 15+ countries.'],
@@ -65,7 +65,7 @@ const projectsData: Project[] = [
   {
     title: 'Zoto',
     kind: 'Payments super-app · Nigeria',
-    year: '2019',
+    year: '2016–18',
     description:
       'Nigeria’s leading payments super-app at Mahindra Comviva: send money, pay bills and reach financial services from a phone.',
     highlights: ['Millions of users, high-volume transactions, a regulated market.'],

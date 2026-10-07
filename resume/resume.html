@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Gaurav Arora — Resume</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      @page {
+        size: A4;
+        margin: 14mm 15mm 13mm;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      body {
+        margin: 0;
+        font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 9.4pt;
+        line-height: 1.45;
+        color: #262626;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      h1 {
+        margin: 0;
+        font-size: 23pt;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #0a0a0a;
+        line-height: 1.1;
+      }
+      .role {
+        margin-top: 4pt;
+        font-size: 10.5pt;
+        font-weight: 500;
+        color: #404040;
+      }
+      .contact {
+        margin-top: 6pt;
+        font-size: 8.8pt;
+        color: #525252;
+      }
+      .contact span {
+        white-space: nowrap;
+      }
+      .contact span + span::before {
+        content: '·';
+        margin: 0 6pt;
+        color: #a3a3a3;
+      }
+      h2 {
+        margin: 13pt 0 6pt;
+        padding-bottom: 3pt;
+        border-bottom: 1px solid #d4d4d4;
+        font-size: 8.2pt;
+        font-weight: 600;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: #0a0a0a;
+      }
+      p {
+        margin: 0;
+      }
+      .job {
+        margin-top: 9pt;
+        break-inside: avoid;
+      }
+      .job:first-of-type {
+        margin-top: 0;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12pt;
+      }
+      .title {
+        font-size: 10.2pt;
+        font-weight: 600;
+        color: #0a0a0a;
+      }
+      .date {
+        flex-shrink: 0;
+        font-size: 8.8pt;
+        color: #525252;
+        font-variant-numeric: tabular-nums;
+      }
+      .org {
+        font-size: 9pt;
+        color: #525252;
+      }
+      ul {
+        margin: 4pt 0 0;
+        padding-left: 12pt;
+      }
+      li {
+        margin-bottom: 2.2pt;
+        padding-left: 1pt;
+      }
+      li::marker {
+        color: #a3a3a3;
+      }
+      b {
+        font-weight: 600;
+        color: #0a0a0a;
+      }
+      .stack {
+        margin-top: 3pt;
+        font-size: 8.5pt;
+        color: #525252;
+      }
+      .skills {
+        display: grid;
+        grid-template-columns: 82pt 1fr;
+        row-gap: 3pt;
+      }
+      .skills dt {
+        font-weight: 600;
+        color: #0a0a0a;
+      }
+      .skills dd {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Gaurav Arora</h1>
+      <div class="role">Principal Product Engineer · AI agents, backend and mobile</div>
+      <div class="contact">
+        <span>Gurgaon, India</span><span>Open to global remote</span
+        ><!--PHONE--><span
+          ><a href="mailto:gaurav.arora90@gmail.com">gaurav.arora90@gmail.com</a></span
+        ><span><a href="https://buildwithgaurav.me">buildwithgaurav.me</a></span
+        ><span
+          ><a href="https://www.linkedin.com/in/gaurav-arora-7933692a/"
+            >linkedin.com/in/gaurav-arora-7933692a</a
+          ></span
+        >
+      </div>
+    </header>
+
+    <h2>Summary</h2>
+    <p>
+      Principal Product Engineer with 15 years of building production software across mobile,
+      backend and AI. At Raaho, the engineering link between the founders and a 10-member team, and
+      architect of a 50+ microservice backend. Most recently designed and built Zenith, an AI
+      support agent on Claude that is live inside a ticketing app. Earlier, led mobile engineering
+      for a digital banking platform running in 12 countries and for Nigeria's leading payments app.
+      Looking for principal or staff engineering roles at AI-first companies.
+    </p>
+
+    <h2>Experience</h2>
+
+    <div class="job">
+      <div class="row">
+        <div class="title">Principal Product Engineer</div>
+        <div class="date">Apr 2021 – Present</div>
+      </div>
+      <div class="org">Raaho · Logistics tech startup · Gurgaon</div>
+      <ul>
+        <li>
+          Engineering link between the CEO, co-founders and a
+          <b>10-member cross-functional team</b>. Own architecture, hiring and technical decisions,
+          from requirements to production.
+        </li>
+        <li>
+          Architected <b>50+ microservices</b> in Go, Python and Java, and delivered four production
+          apps: Driver, Trucker, Shipper and Ops.
+        </li>
+        <li>
+          Led the move to Flutter in 2022. Went from Android specialist to full-stack principal in
+          under two years.
+        </li>
+        <li>
+          Built Mira Bot and Chhotu Bot, AI agents on OpenClaw that automate GitHub, CleverTap and
+          cron-job monitoring, <b>cutting manual ops work by 80%</b>.
+        </li>
+        <li>
+          Brought AI-assisted development into the team's pipeline, removing QA and design
+          bottlenecks.
+        </li>
+      </ul>
+      <div class="stack">
+        Go · Python · Java · Flutter · Android · AI agents · Microservices · DigitalOcean · Firebase
+        · CleverTap
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="row">
+        <div class="title">Independent Consultant, Product Engineering and AI</div>
+        <div class="date">2023 – Present</div>
+      </div>
+      <div class="org">Independent · Remote</div>
+      <ul>
+        <li>
+          <b>Zenith, an AI support agent (2026).</b> Designed and built the help and support chat
+          for a live-events ticketing app, live in production. Claude runs a bounded loop over ten
+          tools. Refunds and support tickets need the user's confirmation, so the agent cannot
+          change anything on its own.
+        </li>
+        <li>
+          Built the tooling to run and change it safely: an ops dashboard, a Replay Lab that re-runs
+          past chats against new code, a cost ledger per feature, and per-client prompt and tool
+          packs. Case study: buildwithgaurav.me/blog/zenith-ai-support-agent
+        </li>
+        <li>
+          <b>Closed-loop NFC prepaid payments.</b> Sole engineer on a tap-and-pay system for malls
+          and events: Flutter app, backend integration, NFC hardware communication and payment flow.
+          Users load balance onto a physical card and it is deducted at each purchase. Live in
+          production.
+        </li>
+      </ul>
+      <div class="stack">
+        Claude API · TypeScript · Node.js · SQLite · Flutter · NFC · Closed-loop payments
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="row">
+        <div class="title">Lead Mobile Engineer, DBXP (digital banking)</div>
+        <div class="date">Jun 2018 – Mar 2021</div>
+      </div>
+      <div class="org">Mahindra Comviva · Gurgaon</div>
+      <ul>
+        <li>
+          Led mobile engineering for DBXP, an enterprise digital banking platform running in
+          <b>12 countries</b>, as part of an 85-member global team.
+        </li>
+        <li>
+          Delivered the iOS and Android apps with 100% test coverage, automated CI/CD with Jenkins
+          and Fastlane, and led the Java-to-Kotlin migration.
+        </li>
+      </ul>
+      <div class="stack">
+        Kotlin · iOS · MVVM · Dagger 2 · Jenkins · Fastlane · Firebase · Mixpanel · TDD
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="row">
+        <div class="title">Lead Mobile Engineer, Zoto (payments super-app)</div>
+        <div class="date">Apr 2016 – Jun 2018</div>
+      </div>
+      <div class="org">Mahindra Comviva · Gurgaon</div>
+      <ul>
+        <li>
+          Built Zoto, <b>Nigeria's #1 recharge and payments super-app</b> (comparable to Paytm),
+          serving millions of users.
+        </li>
+        <li>
+          Implemented USSD interception with Android Accessibility Services, a critical payments
+          feature for the African market.
+        </li>
+      </ul>
+      <div class="stack">
+        Kotlin · MVP · LiveData · Dagger 2 · Accessibility Services · Jenkins · Firebase
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="row">
+        <div class="title">Android Developer, mid to senior</div>
+        <div class="date">Sep 2011 – Apr 2016</div>
+      </div>
+      <div class="org">Rockstand Digital · Classic Informatics · A-1 Technology · Delhi NCR</div>
+      <ul>
+        <li>
+          Built an eBook and eMagazine reader at Rockstand (MuPDF, payment gateways), and taxi, chat
+          and meeting apps at Classic Informatics.
+        </li>
+        <li>Performer of the Month at Classic Informatics for the Direct Cab Call application.</li>
+      </ul>
+    </div>
+
+    <h2>Skills</h2>
+    <dl class="skills">
+      <dt>AI and agents</dt>
+      <dd>
+        Tool-calling agents, Claude and OpenAI APIs, OpenClaw, prompt caching, replay-based testing,
+        cost tracking
+      </dd>
+      <dt>Backend</dt>
+      <dd>Go, Python, Java, Node.js and TypeScript, microservices, system design</dd>
+      <dt>Mobile</dt>
+      <dd>Android (Kotlin), Flutter and Dart, iOS, MVVM, MVP, TDD</dd>
+      <dt>Payments</dt>
+      <dd>NFC tap and pay, payment gateways, digital banking, USSD</dd>
+      <dt>DevOps</dt>
+      <dd>DigitalOcean, Jenkins, Fastlane, Firebase</dd>
+      <dt>Analytics</dt>
+      <dd>CleverTap, Mixpanel, Smartlook, Branch</dd>
+      <dt>Leadership</dt>
+      <dd>Team of 10, hiring, mentorship, reporting to CXOs</dd>
+    </dl>
+
+    <h2>Education</h2>
+    <div class="row">
+      <div><b>B.Tech, Computer Science (Honors), 78.99%</b></div>
+      <div class="date">2007 – 2011</div>
+    </div>
+    <div class="org">
+      B.M. Institute of Engineering &amp; Technology (M.D.U.) · Sonepat, Haryana
+    </div>
+
+    <p style="margin-top: 12pt; font-size: 8.8pt; color: #525252">Notice period: 60 days.</p>
+  </body>
+</html>
