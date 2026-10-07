@@ -1,9 +1,24 @@
+import siteMetadata from '@/data/siteMetadata'
+import Link from './Link'
+
+const LINKS = [
+  { title: 'Email', href: `mailto:${siteMetadata.email}` },
+  { title: 'LinkedIn', href: siteMetadata.linkedin as string },
+  { title: 'GitHub', href: siteMetadata.github as string },
+  { title: 'RSS', href: '/feed.xml' },
+]
+
 export default function Footer() {
   return (
-    <footer className="border-t border-[#1E293B] bg-black py-8">
-      <p className="text-center text-sm text-[#475569]">
-        © 2026 Gaurav Arora · Built with Next.js · Hosted on Vercel
-      </p>
+    <footer className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-8 text-sm text-zinc-500 sm:flex-row">
+      <p>© {new Date().getFullYear()} Gaurav Arora</p>
+      <div className="flex items-center gap-5">
+        {LINKS.map((l) => (
+          <Link key={l.title} href={l.href} className="transition-colors hover:text-zinc-200">
+            {l.title}
+          </Link>
+        ))}
+      </div>
     </footer>
   )
 }

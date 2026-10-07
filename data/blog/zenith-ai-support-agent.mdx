@@ -1,0 +1,136 @@
+---
+title: 'Zenith: An AI Support Agent That Can Read Everything and Change Nothing'
+date: '2026-10-07'
+tags: ['AI', 'Agents', 'Claude', 'Architecture', 'Engineering']
+draft: false
+summary: 'A case study of Zenith, the AI support agent I designed and built for a live-events ticketing app. One model, a bounded tool loop, human approval for anything irreversible, and the ops tooling that makes an agent safe to change: a replay lab, a cost ledger and a dashboard.'
+authors: ['default']
+---
+
+Zenith is the help and support chat inside a live-events ticketing app. A user opens it and types something like "I never got my ticket". Zenith looks up their booking, works out what went wrong, and either fixes it in the chat (here is your download link) or hands a pre-filled support ticket to a human.
+
+I designed and built it between August and October 2026: the backend, the agent, the ops dashboard and the tooling around it. It is live in production.
+
+This is a write-up of how it works and why it is built the way it is.
+
+## At a glance
+
+| Question             | Answer                                                                         |
+| -------------------- | ------------------------------------------------------------------------------ |
+| What is it           | A single-agent, tool-calling LLM system for customer support                   |
+| Model                | Claude Sonnet for live chat, Claude Haiku for offline summaries                |
+| Agent loop           | Bounded: at most 5 tool round trips per message, then a scripted handover      |
+| Tools                | Ten fixed tools, almost all read-only                                          |
+| Irreversible actions | None by the agent. Refunds and tickets need a tap from the user                |
+| Retrieval (RAG)      | None, on purpose                                                               |
+| Memory               | Per conversation, in SQLite, trimmed to recent turns                           |
+| Multi-tenant         | Yes. Each client gets its own prompt, tools and data checks as a "client pack" |
+| Stack                | Node.js, TypeScript, Express, SQLite, Anthropic SDK, Flutter client, Vitest    |
+| Hosting              | One DigitalOcean droplet, pm2 behind nginx, separate staging and prod          |
+
+## What it handles
+
+Five workflows cover most of what people ask a ticketing support desk:
+
+1. Ticket not received
+2. Access, download and invoice
+3. Refund and cancellation
+4. Venue and location
+5. Ticket transfer
+
+It also answers questions about an event's own terms (age limits, ID, entry rules) and about the user's existing support tickets.
+
+## Architecture
+
+<ZenithDiagram />
+
+A message goes from the app to the API, which checks the tenant key, applies a per-tenant rate limit and loads the user's session. The orchestrator appends the message to the conversation, trims the history, and starts a loop: ask Claude, run whatever tools it asked for, feed the results back, repeat until Claude writes a reply.
+
+The reply goes back with a handful of UI signals next to the text: show the booking picker, start this download, show a map button, show Yes and No for a refund, open a ticket draft. The app decides how to draw them. The model never writes markup.
+
+## The decisions that matter
+
+### 1. The agent reads. The user decides.
+
+Zenith's own tool calls cannot carry out a consequential change. This is the main design choice in the system.
+
+For a refund, the agent checks eligibility, which is a read. If the order is eligible, the response carries a `refundConfirm` signal and the app shows Yes and No buttons. Only when the user taps Yes does the app call the refund API, as that user. The result comes back to Zenith as a system message, and Zenith tells the user what happened.
+
+Support tickets work the same way. Zenith drafts the ticket, the app opens it pre-filled, and the user reviews it and taps Submit.
+
+The model can be wrong about a refund rule and the worst outcome is a wrong sentence in a chat. It cannot move money by mistake, because it never had the ability to.
+
+### 2. Rules that matter are enforced in code
+
+A system prompt is a request. For anything where a mistake is expensive, the check also lives in code.
+
+- **Ownership.** A session belongs to the user who created it. Anyone else sending that session ID gets a 404, the same as if it did not exist. Inside the tools, an order has to appear in the caller's own booking list before anything about it is returned.
+- **Personal data.** Ticket and booking details go through a gate in the tool executor. If the session is not verified for that booking, the personal fields are stripped from the tool result before the model ever sees them.
+- **Language.** Users write in English, Hindi and Hinglish, and replies have to stay in Latin script. Every reply is checked in code. If Devanagari slips through, one cheap corrective call rewrites it before it reaches the user.
+- **Ticket drafts.** A draft with blank fields is rejected by the tool, so the model has to try again with real content.
+
+### 3. A bounded loop with a scripted way out
+
+The loop stops after five tool round trips. If the model has not produced an answer by then, the orchestrator stops asking and escalates to a human with a fixed message. A confused agent costs the user a few seconds, not an endless spinner, and it costs me a bounded number of tokens.
+
+Tool failures (a timeout, a 401 from an upstream API) do not fail the request. They go back to the model as a tool result that says what went wrong and what to do next.
+
+There is also a model fallback. I A/B tested a smaller model, and on live traffic it sometimes filed escalations with empty fields. So if an escalation fails during a turn, the rest of that turn is upgraded to the stronger model.
+
+### 4. No RAG, on purpose
+
+There are no embeddings and no vector store. Zenith's knowledge comes from two places: the system prompt, and structured data about the one booking the user is asking about.
+
+Support questions here are about a specific order, and the answer is in that order's record: its status, its refund flag, its event's terms. Fetching that record exactly is better than searching for something similar to it. Adding retrieval would have added a way to be confidently wrong.
+
+### 5. Every tool has a real endpoint behind it
+
+Early on, a few tools were placeholders that returned success so the flow could be built end to end. I removed every one of them. An agent that is told "the ticket was resent" will tell the user the ticket was resent, whether or not anything was sent.
+
+The rule now: if there is no real endpoint, there is no tool, and that case goes to a human. Fewer capabilities, all of them true.
+
+### 6. The Replay Lab
+
+Changing a prompt is easy. Knowing whether the change made things better is the hard part.
+
+Every turn records a redacted trace of the tool calls and their results. The Replay Lab takes past conversations and runs them again against new code, answering each tool call from the recorded trace instead of the live APIs. The comparison I care about is simple: support tickets raised per 100 chats, before and after the change.
+
+It runs as its own process from the staging build and is started, watched and stopped from the ops dashboard, with its spend shown separately from live traffic.
+
+### 7. Cost is a feature
+
+- **Prompt caching** with two breakpoints: one after the system prompt and tools, one on the latest message, so earlier turns are read from cache.
+- **A cost ledger** that records Claude spend per feature: live chat, conversation summaries, the chat review, problem analysis, replay runs. Side features have their own off switch in the dashboard.
+- **Per-tenant rate limiting**, so one client cannot run up the bill for everyone.
+- **The cheap model where nobody is waiting.** Conversation summaries, the daily brief and the chat review run offline on Haiku.
+
+### 8. An ops dashboard, because support is a team sport
+
+The people who run support need to see what the agent is doing without reading logs. The dashboard gives them:
+
+- every conversation with an AI-written summary, outcome and category
+- top problems across all chats
+- anomaly alerts over the last 24 hours
+- what happened to escalated tickets after they reached the helpdesk
+- a daily brief, and a morning review mail with findings from yesterday's chats
+- a notice when a newer version of the dashboard has been released, with release notes
+
+### 9. One deployment, many clients
+
+The orchestrator, sessions, logging, replay and dashboard are shared. What makes Zenith one client's agent is a client pack: its system prompt, its tool schemas, its tool executor with that client's ownership and data checks, and a few behaviour flags. Each tenant row points to a pack. An unknown pack fails loudly instead of quietly falling back to someone else's prompt.
+
+### 10. Boring infrastructure
+
+Everything Zenith stores lives in one SQLite file on one droplet. There is no database server to provision or keep alive. For a single-instance service at this traffic it is the right size, and I know exactly what has to change when it needs a second instance: Postgres, and a shared store for the rate limiter.
+
+Deploys are one script: staging first, then prod.
+
+## What I would tell someone building one
+
+- Decide what the agent is not allowed to do, and make that impossible, not discouraged.
+- Put a number on "better" before you touch the prompt, and build the thing that measures it.
+- Count the money from day one. Per feature, with a switch.
+- Remove a tool the moment you find it cannot do what it says.
+- Build the dashboard early. The support team will find problems you will not.
+
+If you are building agents that have to work in front of real customers, I would enjoy comparing notes: [gaurav.arora90@gmail.com](mailto:gaurav.arora90@gmail.com).

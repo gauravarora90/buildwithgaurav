@@ -4,10 +4,10 @@ const siteMetadata = {
   author: 'Gaurav Arora',
   headerTitle: 'Gaurav Arora',
   description:
-    "I don't just ship products — I build systems that scale. Principal Product Engineer with 15+ years in fintech, logistics tech, and AI.",
+    'Principal Product Engineer with 15+ years in fintech, logistics tech and AI. I build production systems, most recently Zenith, an AI support agent live inside a ticketing app.',
   language: 'en-us',
   theme: 'dark', // system, dark or light
-  siteUrl: 'https://buildwithgaurav.vercel.app',
+  siteUrl: 'https://buildwithgaurav.me',
   siteRepo: 'https://github.com/gauravarora90/buildwithgaurav',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
@@ -24,7 +24,7 @@ const siteMetadata = {
   bluesky: '',
   locale: 'en-US',
   // set to true if you want a navbar fixed to the top
-  stickyNav: false,
+  stickyNav: true,
   analytics: {
     // If you want to use an analytics provider you have to add it to the
     // content security policy in the `next.config.js` file.

@@ -4,85 +4,47 @@ import { useEffect } from 'react'
 import Link from '@/components/Link'
 import { formatDate } from 'pliny/utils/formatDate'
 import siteMetadata from '@/data/siteMetadata'
-
-// ─── Full-bleed: escapes SectionContainer's max-width ────────────────────────
-const FB: React.CSSProperties = { width: '100vw', marginLeft: 'calc(50% - 50vw)' }
+import projectsData from '@/data/projectsData'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const STATS = [
-  { val: '15+', label: 'Years', sub: 'Building production systems', cls: 'float-0' },
-  { val: '50+', label: 'Microservices', sub: 'Architected at scale', cls: 'float-1' },
-  { val: 'AI', label: 'Agents', sub: 'In production today', cls: 'float-2' },
-  { val: '15', label: 'Countries', sub: 'Banking platform live', cls: 'float-3' },
+  { val: '15+', label: 'Years building production systems' },
+  { val: '15+', label: 'Countries running the banking platform' },
+  { val: '50+', label: 'Microservices architected' },
+  { val: 'AI', label: 'Agents live in production' },
 ]
 
-type TagColor = 'blue' | 'teal' | 'purple' | 'green' | 'amber'
-const TAG: Record<TagColor, string> = {
-  blue: 'bg-[rgba(37,99,235,0.1)] text-[#60A5FA] border border-[rgba(37,99,235,0.2)]',
-  teal: 'bg-[rgba(20,184,166,0.1)] text-teal-400 border border-teal-500/20',
-  purple: 'bg-[rgba(124,58,237,0.1)] text-purple-400 border border-purple-500/20',
-  green: 'bg-[rgba(34,197,94,0.1)] text-green-400 border border-green-500/20',
-  amber: 'bg-[rgba(217,119,6,0.1)] text-amber-400 border border-amber-500/20',
-}
+const ZENITH_SPEC = [
+  { k: 'Model', v: 'Claude Sonnet for live chat, Haiku for offline work' },
+  { k: 'Agent loop', v: 'Bounded: 5 tool round trips, then a human' },
+  { k: 'Tools', v: 'Ten fixed tools, almost all read-only' },
+  { k: 'Actions', v: 'Refunds and tickets need a tap from the user' },
+  { k: 'Testing', v: 'Replay Lab re-runs past chats on new code' },
+  { k: 'Cost', v: 'Prompt caching, and a ledger per feature' },
+]
 
 interface TItem {
   year: string
   title: string
   story: string
   tag: string
-  tagColor: TagColor
-  special?: boolean
 }
 
 const TIMELINE: TItem[] = [
   {
-    year: '2011',
-    title: 'Started With Android',
+    year: '2026',
+    title: 'Shipped Zenith',
     story:
-      'Joined when the ecosystem was raw and fragmented. Wrote apps on devices with barely any RAM. Learned that solid fundamentals beat clever hacks — every single time.',
-    tag: 'Mobile Engineering',
-    tagColor: 'blue',
+      'Designed and built an AI support agent for a live-events ticketing app. Claude with a bounded tool loop, human approval for refunds, a replay lab for testing changes against real chats, and a cost ledger per feature. Live in production.',
+    tag: 'AI Agents in Production',
   },
   {
-    year: '2018',
-    title: 'Added iOS',
+    year: '2024',
+    title: 'Built AI Agents',
     story:
-      'Why stop at one platform? Expanded cross-platform without a team. One engineer, two ecosystems, zero excuses. Doubled the surface area, sharpened the instincts.',
-    tag: 'Cross-Platform',
-    tagColor: 'blue',
-  },
-  {
-    year: '2019',
-    title: 'Fintech Changed Everything',
-    story:
-      "Built Zoto — Nigeria's #1 payments super-app. Then DBXP — live across 15+ countries. Real money moving through systems I built. Learned what engineering means when it has to work — no exceptions.",
-    tag: 'Fintech at Scale',
-    tagColor: 'teal',
-  },
-  {
-    year: '2021',
-    title: 'Built a Payment System. Alone.',
-    story:
-      "Complete closed-loop NFC Tap & Pay prepaid system. Hardware integration, backend API, transaction engine, merchant dashboard — every layer, solo. When you're the only one who can fix it, you learn everything.",
-    tag: 'Full Stack · Solo',
-    tagColor: 'purple',
-  },
-  {
-    year: '2021',
-    title: 'Became a Product Engineer',
-    story:
-      'Joined Raaho as the engineering lead. Stopped being handed specs — started writing them. Architected 50+ microservices from scratch, owned product decisions end-to-end, and built the kind of cross-functional culture where engineering and business are the same conversation.',
-    tag: 'Product + Engineering',
-    tagColor: 'blue',
-  },
-  {
-    year: '2022',
-    title: 'AI Unlocked New Languages',
-    story:
-      "Used AI to learn Go, Python, Java — in production. Didn't study. Shipped. Discovered AI wasn't just a tool — it was a force multiplier for anyone willing to actually use it.",
-    tag: 'AI-Assisted Development',
-    tagColor: 'green',
+      'Built Chhotu Bot and Mira Bot on Telegram — automating GitHub, CleverTap, DigitalOcean. 90 minutes of daily work became 3 commands.',
+    tag: 'AI Engineering',
   },
   {
     year: '2023',
@@ -90,83 +52,70 @@ const TIMELINE: TItem[] = [
     story:
       'CleverTap, Zoho, analytics pipelines. Started making product decisions from real data — not assumptions. Retention curves, funnel drops, cohort analysis — the numbers started telling stories.',
     tag: 'Data-Driven Product',
-    tagColor: 'amber',
   },
   {
-    year: '2024',
-    title: 'Built AI Agents',
+    year: '2022',
+    title: 'AI Unlocked New Languages',
     story:
-      'Built Chhotu Bot and Mira Bot on Telegram — automating GitHub, CleverTap, DigitalOcean. 90 minutes of daily work became 3 commands. The future arrived early — I just built it first.',
-    tag: 'AI Engineering',
-    tagColor: 'blue',
+      "Used AI to learn Go, Python, Java — in production. Didn't study. Shipped. Discovered AI wasn't just a tool — it was a force multiplier for anyone willing to actually use it.",
+    tag: 'AI-Assisted Development',
   },
   {
-    year: '2026',
-    title: "What's Next ✦",
+    year: '2021',
+    title: 'Became a Product Engineer',
     story:
-      '15 years of building. Now looking for an AI-first company where this entire journey — mobile, fintech, data, AI agents, product thinking — actually matters. Remote. Global. Ambitious.',
-    tag: 'Open to Opportunities',
-    tagColor: 'blue',
-    special: true,
+      'Joined Raaho as the engineering lead. Stopped being handed specs — started writing them. Architected 50+ microservices from scratch, owned product decisions end-to-end, and built the kind of cross-functional culture where engineering and business are the same conversation.',
+    tag: 'Product + Engineering',
+  },
+  {
+    year: '2021',
+    title: 'Built a Payment System. Alone.',
+    story:
+      "Complete closed-loop NFC Tap & Pay prepaid system. Hardware integration, backend API, transaction engine, merchant dashboard — every layer, solo. When you're the only one who can fix it, you learn everything.",
+    tag: 'Full Stack · Solo',
+  },
+  {
+    year: '2019',
+    title: 'Fintech Changed Everything',
+    story:
+      "Built Zoto — Nigeria's #1 payments super-app. Then DBXP — live across 15+ countries. Real money moving through systems I built. Learned what engineering means when it has to work — no exceptions.",
+    tag: 'Fintech at Scale',
+  },
+  {
+    year: '2018',
+    title: 'Added iOS',
+    story:
+      'Why stop at one platform? Expanded cross-platform without a team. One engineer, two ecosystems, zero excuses. Doubled the surface area, sharpened the instincts.',
+    tag: 'Cross-Platform',
+  },
+  {
+    year: '2011',
+    title: 'Started With Android',
+    story:
+      'Joined when the ecosystem was raw and fragmented. Wrote apps on devices with barely any RAM. Learned that solid fundamentals beat clever hacks — every single time.',
+    tag: 'Mobile Engineering',
   },
 ]
 
-const PROJECTS = [
-  {
-    title: 'Chhotu Bot',
-    tag: 'AI Agent',
-    desc: 'Telegram AI assistant automating GitHub, CleverTap & DigitalOcean. 90 min of daily dashboard-checking → 3 commands.',
-    tagStyle: 'bg-[rgba(37,99,235,0.1)] text-[#60A5FA] border border-[rgba(37,99,235,0.2)]',
-    hoverBorder: 'hover:border-[rgba(37,99,235,0.6)]',
-    hoverGlow: 'hover:shadow-[0_0_32px_rgba(37,99,235,0.18)]',
-    link: null as null | { label: string; href: string; color: string },
-  },
-  {
-    title: 'NFC Tap & Pay',
-    tag: 'Fintech · Solo Build',
-    desc: 'Complete closed-loop prepaid payment system. Built alone — hardware to merchant dashboard. Sub-300ms taps.',
-    tagStyle: 'bg-[rgba(124,58,237,0.1)] text-purple-400 border border-purple-500/20',
-    hoverBorder: 'hover:border-purple-500/60',
-    hoverGlow: 'hover:shadow-[0_0_32px_rgba(124,58,237,0.18)]',
-    link: { label: 'View case study →', href: '/blog/nfc-tap-and-pay', color: 'text-purple-400' },
-  },
-  {
-    title: 'DBXP Banking Platform',
-    tag: 'Digital Banking',
-    desc: 'Production digital banking platform. 15+ countries. Real money. Real users. Real scale.',
-    tagStyle: 'bg-[rgba(8,145,178,0.1)] text-cyan-400 border border-cyan-500/20',
-    hoverBorder: 'hover:border-cyan-500/60',
-    hoverGlow: 'hover:shadow-[0_0_32px_rgba(8,145,178,0.18)]',
-    link: null,
-  },
-  {
-    title: 'Zoto Super App',
-    tag: 'Payments · Nigeria',
-    desc: "Nigeria's #1 payments super-app at Mahindra Comviva. Millions of users. High-stakes fintech at scale.",
-    tagStyle: 'bg-[rgba(217,119,6,0.1)] text-amber-400 border border-amber-500/20',
-    hoverBorder: 'hover:border-amber-500/60',
-    hoverGlow: 'hover:shadow-[0_0_32px_rgba(217,119,6,0.18)]',
-    link: null,
-  },
-]
+const OTHER_WORK = projectsData.filter((p) => !p.featured)
 
-// ─── Timeline card sub-component ─────────────────────────────────────────────
-function TCard({ item }: { item: TItem }) {
+// ─── Shared bits ──────────────────────────────────────────────────────────────
+
+const BTN_PRIMARY =
+  'inline-flex items-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-500'
+const BTN_SECONDARY =
+  'inline-flex items-center rounded-lg border border-white/15 px-5 py-2.5 text-sm font-semibold text-zinc-200 transition-colors hover:border-white/30 hover:bg-white/5'
+const CARD =
+  'rounded-2xl border border-white/10 bg-zinc-900/40 transition-colors hover:border-white/20'
+
+function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: string; sub?: string }) {
   return (
-    <div
-      data-reveal
-      className={`w-full rounded-2xl border border-[#1E293B] bg-[#0D1117] p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-[rgba(37,99,235,0.5)] hover:shadow-[0_0_24px_rgba(37,99,235,0.12)] ${item.special ? 'special-card' : ''}`}
-    >
-      <div className="mb-1.5 text-xs font-bold tracking-[0.2em] text-[#2563EB] uppercase">
-        {item.year}
-      </div>
-      <h3 className="mb-3 text-lg font-bold text-[#F8FAFC]">{item.title}</h3>
-      <p className="mb-4 text-sm leading-relaxed text-[#94A3B8]">{item.story}</p>
-      <span
-        className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${TAG[item.tagColor]}`}
-      >
-        {item.tag}
-      </span>
+    <div data-reveal className="mb-10">
+      <p className="text-xs font-semibold tracking-[0.2em] text-blue-400 uppercase">{eyebrow}</p>
+      <h2 className="font-display mt-3 text-3xl font-bold tracking-tight text-zinc-50 sm:text-4xl">
+        {title}
+      </h2>
+      {sub && <p className="mt-3 max-w-2xl text-zinc-400">{sub}</p>}
     </div>
   )
 }
@@ -189,375 +138,239 @@ export default function Home({
   return (
     <>
       <style>{`
-        @keyframes badgeDot  { 0%,100%{opacity:1}   50%{opacity:0.25} }
-        @keyframes floatUp   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-        @keyframes specialCard {
-          0%,100% { box-shadow: 0 0 0 0 rgba(37,99,235,0), 0 0 0 1px #1E293B; }
-          50%     { box-shadow: 0 0 28px rgba(37,99,235,0.3), 0 0 0 1px rgba(37,99,235,0.8); }
-        }
-        .badge-dot  { animation: badgeDot  2s   ease-in-out infinite; }
-        .float-0    { animation: floatUp   3s   ease-in-out infinite; }
-        .float-1    { animation: floatUp   3s   ease-in-out infinite 0.5s; }
-        .float-2    { animation: floatUp   3s   ease-in-out infinite 1s; }
-        .float-3    { animation: floatUp   3s   ease-in-out infinite 1.5s; }
-        .special-card { animation: specialCard 2s ease-in-out infinite; }
-
         [data-reveal] {
-          opacity: 0; transform: translateY(22px);
-          transition: opacity .55s ease, transform .55s ease;
+          opacity: 0; transform: translateY(14px);
+          transition: opacity .5s ease, transform .5s ease;
         }
-        [data-reveal].in-view  { opacity: 1; transform: translateY(0); }
-        [data-reveal][data-d="1"] { transition-delay: .08s; }
-        [data-reveal][data-d="2"] { transition-delay: .16s; }
-        [data-reveal][data-d="3"] { transition-delay: .24s; }
-        [data-reveal][data-d="4"] { transition-delay: .32s; }
+        [data-reveal].in-view { opacity: 1; transform: translateY(0); }
+        @media (prefers-reduced-motion: reduce) {
+          [data-reveal] { opacity: 1; transform: none; transition: none; }
+        }
       `}</style>
 
       {/* ════════════════════════════════════════════════════════ HERO */}
-      <section
-        style={FB}
-        className="relative flex min-h-[calc(100vh-5rem)] flex-col justify-start overflow-hidden bg-black px-6 pt-10 pb-20 sm:pt-14 sm:pb-24"
-      >
-        {/* Top-right nebula glow */}
-        <div
-          className="pointer-events-none absolute -top-32 -right-32 h-[700px] w-[700px] rounded-full"
-          style={{
-            background:
-              'radial-gradient(circle at 70% 30%, rgba(37,99,235,0.12) 0%, transparent 65%)',
-          }}
+      <section className="pt-12 pb-16 sm:pt-20 sm:pb-20">
+        <p className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-medium text-zinc-300">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+          Open to principal engineering roles · AI-first teams
+        </p>
+
+        <h1 className="font-display mt-7 text-[clamp(40px,7vw,76px)] leading-[1.04] font-bold tracking-tight text-zinc-50">
+          I build things that <span className="text-blue-400">actually work.</span>
+        </h1>
+
+        <p className="mt-7 max-w-2xl text-lg leading-relaxed text-zinc-400">
+          15 years of shipping production systems. An AI support agent live inside a ticketing app,
+          banking platforms running in 15+ countries, and a logistics backend of 50+ microservices.{' '}
+          <span className="text-zinc-100">I don&apos;t prototype. I ship.</span>
+        </p>
+
+        <div className="mt-9 flex flex-wrap items-center gap-3">
+          <Link href="/projects" className={BTN_PRIMARY}>
+            See my work
+          </Link>
+          <Link href="/blog/zenith-ai-support-agent" className={BTN_SECONDARY}>
+            Zenith case study
+          </Link>
+          <Link
+            href={`mailto:${siteMetadata.email}`}
+            className="px-2 py-2.5 text-sm font-semibold text-zinc-400 transition-colors hover:text-zinc-100"
+          >
+            Get in touch →
+          </Link>
+        </div>
+
+        <dl className="mt-16 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-white/10 pt-10 lg:grid-cols-4">
+          {STATS.map((s) => (
+            <div key={s.label}>
+              <dd className="font-display text-3xl font-bold text-zinc-50">{s.val}</dd>
+              <dt className="mt-1.5 text-sm leading-snug text-zinc-400">{s.label}</dt>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* ══════════════════════════════════════════ FEATURED: ZENITH */}
+      <section className="border-t border-white/10 py-20">
+        <SectionHead
+          eyebrow="Featured work"
+          title="Zenith: an AI support agent in production"
+          sub="The help and support chat inside a live-events ticketing app. It can read everything it needs and change nothing on its own."
         />
 
-        <div className="relative mx-auto w-full max-w-5xl">
-          <div className="flex flex-col gap-16 lg:flex-row lg:items-center">
-            {/* ── Left: copy ── */}
-            <div className="flex-1 space-y-8 lg:max-w-xl">
-              {/* Badge */}
-              <div
-                className="inline-flex items-center gap-2.5 rounded-full border px-4 py-2 text-sm font-medium text-[#60A5FA]"
-                style={{
-                  borderColor: 'rgba(37,99,235,0.4)',
-                  backgroundColor: 'rgba(37,99,235,0.07)',
-                }}
-              >
-                <span className="badge-dot h-2 w-2 flex-shrink-0 rounded-full bg-[#2563EB]" />
-                Building at the intersection of AI + Product
-              </div>
-
-              {/* Headline */}
-              <div className="space-y-0.5">
-                <h1 className="block text-[clamp(52px,8vw,88px)] leading-[1.02] font-black tracking-tight text-[#F8FAFC]">
-                  I Build Things
-                </h1>
-                <h1 className="block text-[clamp(52px,8vw,88px)] leading-[1.02] font-black tracking-tight text-[#F8FAFC]">
-                  That Actually
-                </h1>
-                <h1
-                  className="block text-[clamp(56px,8.5vw,96px)] leading-[1.02] font-black tracking-tight"
-                  style={{ color: '#2563EB', textShadow: '0 0 50px rgba(37,99,235,0.35)' }}
+        <div data-reveal className={`${CARD} grid gap-10 p-6 sm:p-9 lg:grid-cols-[1.1fr_1fr]`}>
+          <div>
+            <p className="leading-relaxed text-zinc-300">
+              A user types &ldquo;I never got my ticket&rdquo;. Zenith looks up their booking, works
+              out what went wrong, and either fixes it in the chat or hands a pre-filled ticket to a
+              human.
+            </p>
+            <ul className="mt-6 space-y-3 text-sm leading-relaxed text-zinc-400">
+              {projectsData[0].highlights.map((h) => (
+                <li key={h} className="flex gap-3">
+                  <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-blue-400" />
+                  {h}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-7 flex flex-wrap gap-2">
+              {projectsData[0].stack.map((t) => (
+                <span
+                  key={t}
+                  className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-zinc-400"
                 >
-                  Work.
-                </h1>
-              </div>
-
-              {/* Sub */}
-              <p className="max-w-lg text-[17px] leading-relaxed text-[#94A3B8]">
-                15 years. Fintech, logistics, AI agents. I've shipped banking platforms to 15
-                countries, built AI systems from scratch, and architected 50+ microservices that
-                handle real load.{' '}
-                <span className="font-semibold text-[#F8FAFC]">I don't prototype. I ship.</span>
-              </p>
-
-              {/* CTAs */}
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  href="/projects"
-                  className="rounded-lg px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.02]"
-                  style={{
-                    backgroundColor: '#2563EB',
-                    boxShadow: '0 0 0 0 rgba(37,99,235,0)',
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.boxShadow = '0 0 24px rgba(37,99,235,0.5)')
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.boxShadow = '0 0 0 0 rgba(37,99,235,0)')
-                  }
-                >
-                  See My Work →
-                </Link>
-                <Link
-                  href="/about"
-                  className="rounded-lg border border-[#1E293B] px-6 py-3 text-sm font-semibold text-[#94A3B8] transition-all duration-200 hover:border-[rgba(37,99,235,0.6)] hover:text-[#F8FAFC]"
-                  style={{
-                    transition:
-                      'border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease',
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.backgroundColor = 'rgba(37,99,235,0.05)')
-                  }
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
-                >
-                  Read My Story
-                </Link>
-              </div>
-            </div>
-
-            {/* ── Right: floating stat cards ── */}
-            <div className="hidden lg:block lg:w-72 xl:w-80">
-              <div className="grid grid-cols-2 gap-3">
-                {STATS.map((s) => (
-                  <div
-                    key={s.label}
-                    className={`${s.cls} cursor-default rounded-xl border border-[#1E293B] bg-[#0D1117] p-5 transition-all duration-200 hover:border-[rgba(37,99,235,0.6)] hover:shadow-[0_0_20px_rgba(37,99,235,0.2)]`}
-                  >
-                    <div className="mb-1 text-3xl leading-none font-bold text-[#2563EB]">
-                      {s.val}
-                    </div>
-                    <div className="mb-1 text-sm font-semibold text-[#F8FAFC]">{s.label}</div>
-                    <div className="text-xs leading-snug text-[#94A3B8]">{s.sub}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════ THE EVOLUTION */}
-      <section style={FB} className="bg-black py-28">
-        <div className="mx-auto max-w-5xl px-6">
-          <p
-            data-reveal
-            className="mb-20 text-center text-[11px] font-bold tracking-[0.4em] text-[#475569]"
-          >
-            THE EVOLUTION
-          </p>
-
-          <div className="relative">
-            {/* Vertical line — desktop (center) */}
-            <div
-              className="absolute top-4 bottom-4 left-1/2 hidden -translate-x-1/2 lg:block"
-              style={{
-                width: 1,
-                background:
-                  'linear-gradient(to bottom, transparent, #1E293B 8%, #1E293B 92%, transparent)',
-              }}
-            />
-            {/* Vertical line — mobile (left) */}
-            <div
-              className="absolute top-4 bottom-4 lg:hidden"
-              style={{
-                left: 11,
-                width: 1,
-                background:
-                  'linear-gradient(to bottom, transparent, #1E293B 8%, #1E293B 92%, transparent)',
-              }}
-            />
-
-            <div className="space-y-8">
-              {TIMELINE.map((item, i) => (
-                <div key={`${item.year}-${i}`} className="relative">
-                  {/* Desktop: alternating layout */}
-                  <div className="hidden lg:grid lg:grid-cols-[1fr_28px_1fr] lg:items-start">
-                    {/* Left col */}
-                    <div className="flex justify-end pr-10">
-                      {i % 2 === 0 ? (
-                        <div className="w-full max-w-[400px]">
-                          <TCard item={item} />
-                        </div>
-                      ) : (
-                        <div />
-                      )}
-                    </div>
-
-                    {/* Center dot */}
-                    <div className="flex justify-center pt-[26px]">
-                      <div
-                        className="relative z-10 h-3 w-3 flex-shrink-0 rounded-full"
-                        style={{
-                          backgroundColor: '#2563EB',
-                          boxShadow: '0 0 0 3px rgba(37,99,235,0.15), 0 0 12px rgba(37,99,235,0.6)',
-                        }}
-                      />
-                    </div>
-
-                    {/* Right col */}
-                    <div className="pl-10">
-                      {i % 2 !== 0 ? (
-                        <div className="w-full max-w-[400px]">
-                          <TCard item={item} />
-                        </div>
-                      ) : (
-                        <div />
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Mobile: single column */}
-                  <div className="pl-9 lg:hidden">
-                    <div
-                      className="absolute top-[26px] z-10 h-3 w-3 rounded-full"
-                      style={{
-                        left: 5,
-                        backgroundColor: '#2563EB',
-                        boxShadow: '0 0 0 3px rgba(37,99,235,0.15), 0 0 10px rgba(37,99,235,0.6)',
-                      }}
-                    />
-                    <TCard item={item} />
-                  </div>
-                </div>
+                  {t}
+                </span>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════ THINGS I'VE BUILT */}
-      <section style={FB} className="bg-black py-28">
-        <div className="mx-auto max-w-5xl px-6">
-          <div data-reveal className="mb-14">
-            <h2 className="text-4xl font-black text-[#F8FAFC] sm:text-5xl">Things I've Built</h2>
-            <p className="mt-3 text-[#94A3B8]">Not demos. Not side projects. Production systems.</p>
+            <Link href="/blog/zenith-ai-support-agent" className={`${BTN_PRIMARY} mt-8`}>
+              Read the case study →
+            </Link>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            {PROJECTS.map((p, i) => (
-              <div
-                key={p.title}
-                data-reveal
-                data-d={String((i % 2) + 1)}
-                className={`rounded-2xl border border-[#1E293B] bg-[#0D1117] p-8 transition-all duration-200 hover:-translate-y-1 ${p.hoverBorder} ${p.hoverGlow}`}
-              >
-                <span
-                  className={`mb-4 inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${p.tagStyle}`}
-                >
-                  {p.tag}
-                </span>
-                <h3 className="mb-3 text-xl font-bold text-[#F8FAFC]">{p.title}</h3>
-                <p className="text-sm leading-relaxed text-[#94A3B8]">{p.desc}</p>
-                {p.link && (
-                  <Link
-                    href={p.link.href}
-                    className={`mt-5 inline-flex text-sm font-semibold transition-opacity hover:opacity-70 ${p.link.color}`}
-                  >
-                    {p.link.label}
-                  </Link>
-                )}
+          <dl className="divide-y divide-white/10 self-start rounded-xl border border-white/10 bg-zinc-950/60">
+            {ZENITH_SPEC.map((row) => (
+              <div key={row.k} className="grid grid-cols-[92px_1fr] gap-4 px-5 py-3.5">
+                <dt className="text-xs font-semibold tracking-wider text-zinc-500 uppercase">
+                  {row.k}
+                </dt>
+                <dd className="text-sm leading-snug text-zinc-200">{row.v}</dd>
               </div>
             ))}
-          </div>
+          </dl>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════ FROM THE BLOG */}
-      {posts.length > 0 && (
-        <section style={FB} className="bg-black py-28">
-          <div className="mx-auto max-w-5xl px-6">
-            <div data-reveal className="mb-14 flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <h2 className="text-4xl font-black text-[#F8FAFC] sm:text-5xl">From The Blog</h2>
-                <p className="mt-3 text-[#94A3B8]">Real stories from real builds.</p>
-              </div>
-              <Link
-                href="/blog"
-                className="text-sm font-semibold text-[#2563EB] transition-opacity hover:opacity-70"
-              >
-                All posts →
-              </Link>
-            </div>
+      {/* ═════════════════════════════════════════════ SELECTED WORK */}
+      <section className="border-t border-white/10 py-20">
+        <SectionHead
+          eyebrow="Selected work"
+          title="Things I've built"
+          sub="Not demos. Not side projects. Production systems."
+        />
 
-            <div className="grid gap-5 sm:grid-cols-2">
-              {posts.slice(0, 2).map((post, i) => {
-                const { slug, date, title, summary } = post
-                return (
-                  <Link
-                    key={slug}
-                    href={`/blog/${slug}`}
-                    data-reveal
-                    data-d={String(i + 1)}
-                    className="group rounded-2xl border border-[#1E293B] bg-[#0D1117] p-7 transition-all duration-200 hover:-translate-y-1 hover:border-[rgba(37,99,235,0.5)] hover:shadow-[0_0_24px_rgba(37,99,235,0.1)]"
-                  >
-                    <time className="text-xs text-[#475569]" dateTime={date}>
-                      {formatDate(date, siteMetadata.locale)}
-                    </time>
-                    <h3 className="mt-3 text-lg leading-snug font-bold text-[#F8FAFC] transition-colors duration-200 group-hover:text-[#60A5FA]">
-                      {title}
-                    </h3>
-                    {summary && (
-                      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-[#94A3B8]">
-                        {summary}
-                      </p>
-                    )}
-                  </Link>
-                )
-              })}
+        <div className="grid gap-5 sm:grid-cols-2">
+          {OTHER_WORK.map((p) => (
+            <div key={p.title} data-reveal className={`${CARD} flex flex-col p-7`}>
+              <div className="flex items-center justify-between gap-3 text-xs text-zinc-500">
+                <span className="font-semibold tracking-wider uppercase">{p.kind}</span>
+                <span>{p.year}</span>
+              </div>
+              <h3 className="font-display mt-4 text-xl font-bold text-zinc-50">{p.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-400">{p.description}</p>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-200">{p.highlights[0]}</p>
+              {p.href && (
+                <Link
+                  href={p.href}
+                  className="mt-auto pt-6 text-sm font-semibold text-blue-400 transition-colors hover:text-blue-300"
+                >
+                  {p.linkLabel} →
+                </Link>
+              )}
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════ CAREER */}
+      <section className="border-t border-white/10 py-20">
+        <SectionHead eyebrow="The evolution" title="15 years, one direction" />
+
+        <ol className="relative space-y-10 border-l border-white/10 pl-6 sm:pl-8">
+          {TIMELINE.map((item, i) => (
+            <li key={`${item.year}-${i}`} data-reveal className="relative">
+              <span
+                aria-hidden="true"
+                className={`absolute top-1.5 -left-[29px] h-2.5 w-2.5 rounded-full ring-4 ring-zinc-950 sm:-left-[37px] ${
+                  i === 0 ? 'bg-blue-400' : 'bg-zinc-600'
+                }`}
+              />
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span className="font-display text-sm font-bold text-blue-400">{item.year}</span>
+                <h3 className="font-display text-lg font-bold text-zinc-50">{item.title}</h3>
+                <span className="rounded-full border border-white/10 px-2.5 py-0.5 text-xs text-zinc-400">
+                  {item.tag}
+                </span>
+              </div>
+              <p className="mt-2.5 max-w-3xl text-sm leading-relaxed text-zinc-400">{item.story}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════ WRITING */}
+      {posts.length > 0 && (
+        <section className="border-t border-white/10 py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <SectionHead
+              eyebrow="Writing"
+              title="From the blog"
+              sub="Real stories from real builds."
+            />
+            <Link
+              href="/blog"
+              className="mb-10 text-sm font-semibold text-blue-400 transition-colors hover:text-blue-300"
+            >
+              All posts →
+            </Link>
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.slice(0, 3).map((post) => {
+              const { slug, date, title, summary } = post
+              return (
+                <Link
+                  key={slug}
+                  href={`/blog/${slug}`}
+                  data-reveal
+                  className={`${CARD} group block p-7`}
+                >
+                  <time className="text-xs text-zinc-500" dateTime={date}>
+                    {formatDate(date, siteMetadata.locale)}
+                  </time>
+                  <h3 className="font-display mt-3 text-lg leading-snug font-bold text-zinc-50 transition-colors group-hover:text-blue-300">
+                    {title}
+                  </h3>
+                  {summary && (
+                    <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-zinc-400">
+                      {summary}
+                    </p>
+                  )}
+                </Link>
+              )
+            })}
           </div>
         </section>
       )}
 
-      {/* ══════════════════════════════════════════════ CTA BANNER */}
-      <section
-        style={{ ...FB, background: 'linear-gradient(135deg, #000000 0%, #0a1628 100%)' }}
-        className="border-y border-[#1E293B] py-28"
-      >
-        <div className="mx-auto max-w-5xl px-6">
-          <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:justify-between">
-            {/* Left */}
-            <div data-reveal className="space-y-5">
-              <p className="text-xs font-bold tracking-[0.3em] text-[#2563EB]">NEXT CHAPTER</p>
-              <div>
-                <h2 className="text-4xl font-black text-[#F8FAFC] sm:text-5xl">
-                  Got a hard problem
-                </h2>
-                <h2 className="text-4xl font-black sm:text-5xl" style={{ color: '#2563EB' }}>
-                  and AI in the mix?
-                </h2>
-              </div>
-              <p className="max-w-md text-[#94A3B8]">
-                15 years of shipping gives you a certain radar for what's real and what's hype. If
-                you're building something that actually matters —{' '}
-                <span className="text-[#F8FAFC]">let's talk.</span>
-              </p>
-            </div>
-
-            {/* Right */}
-            <div data-reveal data-d="2" className="flex flex-col items-start gap-5 lg:items-center">
-              <Link
-                href="mailto:gaurav.arora90@gmail.com"
-                className="rounded-lg px-8 py-4 text-base font-semibold text-white transition-all duration-200 hover:scale-[1.02]"
-                style={{ backgroundColor: '#2563EB' }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.boxShadow = '0 0 32px rgba(37,99,235,0.55)')
-                }
-                onMouseLeave={(e) => (e.currentTarget.style.boxShadow = 'none')}
-              >
-                Start a conversation →
-              </Link>
-              <div className="flex items-center gap-3 text-sm text-[#475569]">
-                <Link
-                  href="https://github.com/gauravarora90"
-                  className="transition-colors hover:text-[#F8FAFC]"
-                >
-                  GitHub
-                </Link>
-                <span>·</span>
-                <Link
-                  href="https://www.linkedin.com/in/gaurav-arora-7933692a/"
-                  className="transition-colors hover:text-[#F8FAFC]"
-                >
-                  LinkedIn
-                </Link>
-                <span>·</span>
-                <Link
-                  href="mailto:gaurav.arora90@gmail.com"
-                  className="transition-colors hover:text-[#F8FAFC]"
-                >
-                  Email
-                </Link>
-              </div>
-            </div>
+      {/* ═══════════════════════════════════════════════════ CONTACT */}
+      <section className="border-t border-white/10 py-20">
+        <div
+          data-reveal
+          className="rounded-2xl border border-white/10 bg-gradient-to-br from-zinc-900 to-zinc-950 p-8 sm:p-12"
+        >
+          <p className="text-xs font-semibold tracking-[0.2em] text-blue-400 uppercase">
+            Next chapter
+          </p>
+          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight text-zinc-50 sm:text-4xl">
+            Got a hard problem <span className="text-blue-400">and AI in the mix?</span>
+          </h2>
+          <p className="mt-4 max-w-xl leading-relaxed text-zinc-400">
+            15 years of shipping gives you a certain radar for what&apos;s real and what&apos;s
+            hype. If you&apos;re building something that actually matters —{' '}
+            <span className="text-zinc-100">let&apos;s talk.</span> I&apos;m open to principal and
+            staff engineering roles at AI-first companies, remote or global.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link href={`mailto:${siteMetadata.email}`} className={BTN_PRIMARY}>
+              Start a conversation →
+            </Link>
+            <Link href={siteMetadata.linkedin as string} className={BTN_SECONDARY}>
+              LinkedIn
+            </Link>
+            <Link href={siteMetadata.github as string} className={BTN_SECONDARY}>
+              GitHub
+            </Link>
           </div>
         </div>
       </section>

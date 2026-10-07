@@ -1,9 +1,12 @@
 {
-  "ai": 1,
+  "ai": 2,
   "telegram": 1,
   "automation": 1,
-  "engineering": 2,
+  "engineering": 3,
   "nfc": 1,
   "payments": 1,
-  "fintech": 1
+  "fintech": 1,
+  "agents": 1,
+  "claude": 1,
+  "architecture": 1
 }
