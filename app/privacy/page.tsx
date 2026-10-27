@@ -1,11 +1,11 @@
 import Link from '@/components/Link'
 import siteMetadata from '@/data/siteMetadata'
 import { genPageMetadata } from 'app/seo'
+import { CHANNEL_APP_NAME, CHANNEL_APP_PATH, CHANNEL_APP_SCOPES } from '@/data/channelAutomation'
 
 export const metadata = genPageMetadata({
   title: 'Privacy Policy',
-  description:
-    'How buildwithgaurav.me and the apps and tools Gaurav Arora publishes handle your data, including data from Google APIs and YouTube API Services.',
+  description: `How buildwithgaurav.me and ${CHANNEL_APP_NAME} handle your data, including YouTube data accessed through Google APIs and YouTube API Services.`,
 })
 
 const LAST_UPDATED = '27 October 2026'
@@ -47,6 +47,82 @@ export default function Privacy() {
           <p>
             If a particular app has its own privacy notice, that notice adds to this one. Where the
             two differ, the app-specific notice wins for that app.
+          </p>
+        </Section>
+
+        <Section title={CHANNEL_APP_NAME}>
+          <p>
+            <Link href={CHANNEL_APP_PATH} className={linkClass}>
+              {CHANNEL_APP_NAME}
+            </Link>{' '}
+            is a private tool I built to automate my own YouTube channel. It uploads videos, keeps
+            their titles, descriptions, thumbnails, playlists and publish schedule up to date,
+            handles comments on my videos, and reports how the videos perform. It uses YouTube API
+            Services. It is not offered to the public. The only account connected to it is my own
+            YouTube channel, which I connect through Google sign-in.
+          </p>
+          <p>
+            <strong className="text-neutral-950">Google user data the app accesses.</strong> When
+            the channel owner signs in, the app asks Google for the permissions below and uses each
+            one only as described:
+          </p>
+          <ul className="list-disc space-y-2 pl-6">
+            {CHANNEL_APP_SCOPES.map((s) => (
+              <li key={s.scope}>
+                <strong className="text-neutral-950">{s.name}</strong>{' '}
+                <span className="font-mono text-xs break-all text-neutral-500">({s.scope})</span>:{' '}
+                {s.use}
+              </li>
+            ))}
+          </ul>
+          <p>
+            The app also receives the Google account&apos;s name and email address during sign-in,
+            to confirm which account is connected.
+          </p>
+          <p>
+            <strong className="text-neutral-950">How the data is used.</strong> The data is used
+            only to run the features above for the channel that connected it. It is not sold, not
+            used for advertising, not used to build user profiles, and not used to train AI or
+            machine-learning models. No person reads it except me, the channel owner.
+          </p>
+          <p>
+            <strong className="text-neutral-950">Storage.</strong> The app stores the OAuth access
+            and refresh tokens, the channel ID, and copies of video details (titles, descriptions,
+            tags, schedule) and analytics numbers that it needs to do its job. This data is kept on
+            a private server that only I can access, and it travels only over encrypted (HTTPS)
+            connections to Google. Stored YouTube data is refreshed or deleted at least every 30
+            days.
+          </p>
+          <p>
+            <strong className="text-neutral-950">Sharing.</strong> The data is not shared with any
+            third party. The app sends data only to Google, through the YouTube Data API and YouTube
+            Analytics API, to carry out the actions above.
+          </p>
+          <p>
+            <strong className="text-neutral-950">Deletion and revoking access.</strong> Access can
+            be removed at any time from the{' '}
+            <Link
+              href="https://security.google.com/settings/security/permissions"
+              className={linkClass}
+            >
+              Google security settings page
+            </Link>
+            . When access is removed, or on request to{' '}
+            <Link href={`mailto:${email}`} className={linkClass}>
+              {email}
+            </Link>
+            , all stored tokens and YouTube data for that account are deleted within 7 days.
+          </p>
+          <p>
+            By using the app you agree to the{' '}
+            <Link href="https://www.youtube.com/t/terms" className={linkClass}>
+              YouTube Terms of Service
+            </Link>
+            , and Google&apos;s use of your data is covered by the{' '}
+            <Link href="https://policies.google.com/privacy" className={linkClass}>
+              Google Privacy Policy
+            </Link>
+            .
           </p>
         </Section>
 
