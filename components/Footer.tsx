@@ -7,6 +7,7 @@ const LINKS = [
   { title: 'GitHub', href: siteMetadata.github as string },
   { title: 'Resume', href: `${siteMetadata.siteUrl}/static/Gaurav_Arora_Resume.pdf` },
   { title: 'RSS', href: '/feed.xml' },
+  { title: 'Privacy', href: '/privacy' },
 ]
 
 export default function Footer() {
